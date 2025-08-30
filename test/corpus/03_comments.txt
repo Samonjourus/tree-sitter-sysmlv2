@@ -1,0 +1,10 @@
+===================
+single line comment
+===================
+
+// this is some text
+
+---
+
+(source_file)
+
