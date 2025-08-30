@@ -13,6 +13,13 @@ module.exports = grammar({
   rules: {
     source_file: ($) => repeat($.statement),
 
+    // typical C-style comments
+    comment: (_) =>
+      choice(
+        token(seq("//", /.*/)), // single line
+        token(seq("/*", /[^*]*\*+([^/*][^*]*\*+)*/, "/")), // multi-line
+      ),
+
     // names ---
     // There are two types of names. Basic names are traditional identifiers.
     // unrestricted_names are single quoted strings that can contain any
@@ -44,4 +51,9 @@ module.exports = grammar({
     feature_statement: ($) =>
       seq($.feature_keyword, optional($.name_and_or_short_name)),
   },
+
+  extras: ($) => [
+    /\s+/, // whitespace
+    $.comment, // your comment rules
+  ],
 });
