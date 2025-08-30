@@ -10,3 +10,15 @@ single line comment
   (comment)
 )
 
+===================
+multi-line comment
+===================
+
+/* this is some text
+ and this is the longer part */
+
+---
+
+(source_file
+  (comment)
+)
