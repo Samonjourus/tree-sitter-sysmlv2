@@ -14,8 +14,7 @@ single line comment
 multi-line comment
 ===================
 
-/* this is some text
- and this is the longer part */
+// this is some text
 
 ---
 
