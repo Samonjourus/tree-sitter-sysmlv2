@@ -39,7 +39,7 @@ module.exports = grammar({
       seq(choice($.feature_statement, $.classifier_statement), ";"),
 
     classifier_statement: ($) =>
-      seq($.classifier_keyword, $.name_and_or_short_name),
+      seq($.classifier_keyword, optional($.name_and_or_short_name)),
 
     feature_statement: ($) => seq($.feature_keyword, $.name_and_or_short_name),
   },
