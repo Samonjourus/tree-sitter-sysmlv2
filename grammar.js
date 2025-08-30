@@ -17,7 +17,7 @@ module.exports = grammar({
     // There are two types of names. Basic names are traditional identifiers.
     // unrestricted_names are single quoted strings that can contain any
     // character (not really but kinda...).
-    basic_name: (_) => /^[A-Za-z_][A-Za-z0-9_]*/,
+    basic_name: (_) => /[A-Za-z_][A-Za-z0-9_]*/,
     unrestricted_name: (_) => seq("'", /.*/, "'"),
 
     // names or short names will appear in Sysmlv2 text
