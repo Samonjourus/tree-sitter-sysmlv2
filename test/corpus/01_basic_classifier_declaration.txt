@@ -18,3 +18,66 @@ classifier something;
     )
   )
 )
+
+======================================
+classifier declaration with short name
+======================================
+
+classifier <something>;
+
+---
+
+(source_file
+  (statement
+    (classifier_statement
+      (classifier_keyword)
+      (name_and_or_short_name
+        (short_name
+          (basic_name)
+        )
+      )
+    )
+  )
+)
+
+============================
+unrestricted classifier declaration
+============================
+
+classifier 'something reall funny ++';
+
+---
+
+(source_file
+  (statement
+    (classifier_statement
+      (classifier_keyword)
+      (name_and_or_short_name
+        (name
+          (unrestricted_name)
+        )
+      )
+    )
+  )
+)
+
+======================================
+unrestricted declaration with short name
+======================================
+
+classifier <'something super&duper funny!'>;
+
+---
+
+(source_file
+  (statement
+    (classifier_statement
+      (classifier_keyword)
+      (name_and_or_short_name
+        (short_name
+          (unrestricted_name)
+        )
+      )
+    )
+  )
+)
