@@ -1,0 +1,160 @@
+[
+  {
+    "type": "classifier_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "classifier_keyword",
+          "named": true
+        },
+        {
+          "type": "name_and_or_short_name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "feature_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "feature_keyword",
+          "named": true
+        },
+        {
+          "type": "name_and_or_short_name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "name",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "basic_name",
+          "named": true
+        },
+        {
+          "type": "unrestricted_name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "name_and_or_short_name",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "name",
+          "named": true
+        },
+        {
+          "type": "short_name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "short_name",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "basic_name",
+          "named": true
+        },
+        {
+          "type": "unrestricted_name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "source_file",
+    "named": true,
+    "root": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "statement",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "classifier_statement",
+          "named": true
+        },
+        {
+          "type": "feature_statement",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": ";",
+    "named": false
+  },
+  {
+    "type": "<",
+    "named": false
+  },
+  {
+    "type": ">",
+    "named": false
+  },
+  {
+    "type": "basic_name",
+    "named": true
+  },
+  {
+    "type": "classifier_keyword",
+    "named": true
+  },
+  {
+    "type": "feature_keyword",
+    "named": true
+  },
+  {
+    "type": "unrestricted_name",
+    "named": true
+  }
+]
