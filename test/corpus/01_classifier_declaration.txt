@@ -40,9 +40,9 @@ classifier <something>;
   )
 )
 
-============================
+===================================
 unrestricted classifier declaration
-============================
+===================================
 
 classifier 'something reall funny ++';
 
@@ -61,9 +61,9 @@ classifier 'something reall funny ++';
   )
 )
 
-======================================
+========================================
 unrestricted declaration with short name
-======================================
+========================================
 
 classifier <'something super&duper funny!'>;
 
