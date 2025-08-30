@@ -139,8 +139,16 @@
           "name": "classifier_keyword"
         },
         {
-          "type": "SYMBOL",
-          "name": "name_and_or_short_name"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "name_and_or_short_name"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
