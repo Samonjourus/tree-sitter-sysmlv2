@@ -19,6 +19,11 @@
     }
   },
   {
+    "type": "comment",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "feature_statement",
     "named": true,
     "fields": {},

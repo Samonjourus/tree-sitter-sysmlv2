@@ -1,0 +1,24 @@
+===================
+single line comment
+===================
+
+// this is some text
+
+---
+
+(source_file
+  (comment)
+)
+
+===================
+multi-line comment
+===================
+
+/* this is some text!
+ and this is the longer part... */
+
+---
+
+(source_file
+  (comment)
+)
