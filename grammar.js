@@ -31,8 +31,8 @@ module.exports = grammar({
     // keywords ---
     keyword: ($) => choice($.feature_keyword, $.classifier_keyword),
 
-    classifier_keyword: (_) => "classifier",
-    feature_keyword: (_) => "feature",
+    classifier_keyword: (_) => token("classifier"),
+    feature_keyword: (_) => token("feature"),
 
     // statements ---
     statement: ($) =>
