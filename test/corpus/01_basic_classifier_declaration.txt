@@ -81,3 +81,11 @@ classifier <'something super&duper funny!'>;
     )
   )
 )
+
+===============================
+classifier don't need a name...
+===============================
+
+classifier;
+
+---
