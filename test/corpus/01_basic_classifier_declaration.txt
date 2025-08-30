@@ -1,0 +1,20 @@
+============================
+basic classifier declaration
+============================
+
+classifier something;
+
+---
+
+(source_file
+  (statement
+    (classifier_statement
+      (classifier_keyword)
+      (name_and_or_short_name
+        (name
+          (basic_name)
+        )
+      )
+    )
+  )
+)
