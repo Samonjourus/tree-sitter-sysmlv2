@@ -6,5 +6,7 @@ single line comment
 
 ---
 
-(source_file)
+(source_file
+  (comment)
+)
 
