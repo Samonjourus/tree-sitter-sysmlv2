@@ -41,6 +41,7 @@ module.exports = grammar({
     classifier_statement: ($) =>
       seq($.classifier_keyword, optional($.name_and_or_short_name)),
 
-    feature_statement: ($) => seq($.feature_keyword, $.name_and_or_short_name),
+    feature_statement: ($) =>
+      seq($.feature_keyword, optional($.name_and_or_short_name)),
   },
 });
