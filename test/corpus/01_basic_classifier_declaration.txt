@@ -89,3 +89,10 @@ classifier don't need a name...
 classifier;
 
 ---
+(source_file
+  (statement
+    (classifier_statement
+      (classifier_keyword)
+    )
+  )
+)
