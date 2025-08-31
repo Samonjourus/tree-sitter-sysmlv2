@@ -30,6 +30,10 @@ module.exports = grammar({
     // names or short names will appear in Sysmlv2 text
     short_name: ($) => seq("<", choice($.basic_name, $.unrestricted_name), ">"),
     name: ($) => choice($.basic_name, $.unrestricted_name),
+    qualified_name: ($) => seq($.name, repeat(seq("::", $.name))),
+
+    qualified_name_sequence: ($) =>
+      seq($.qualified_name, repeat(seq(", ", $.qualified_name))),
 
     // handy ---
     name_and_or_short_name: ($) =>
@@ -75,9 +79,9 @@ module.exports = grammar({
           // you can specify a name and use 'from' or just use 'from'
           seq(optional($.name_and_or_short_name), $.from_keyword),
         ),
-        $.name_and_or_short_name,
+        $.qualified_name_sequence,
         $.to_keyword,
-        $.name_and_or_short_name,
+        $.qualified_name_sequence,
       ),
   },
 
