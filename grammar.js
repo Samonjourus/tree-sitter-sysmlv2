@@ -13,13 +13,6 @@ module.exports = grammar({
   rules: {
     source_file: ($) => repeat($.statement),
 
-    // typical C-style comments
-    comment: (_) =>
-      choice(
-        token(seq("//", /.*/)), // single line
-        seq("/*", /[^*]*\*+([^/*][^*]*\*+)*/, "/"), // multi-line
-      ),
-
     // names ---
     // There are two types of names. Basic names are traditional identifiers.
     // unrestricted_names are single quoted strings that can contain any
@@ -62,15 +55,15 @@ module.exports = grammar({
           $.feature_statement,
           $.classifier_statement,
           $.dependency_statement,
+          $.comment,
         ),
-        ";",
       ),
 
     classifier_statement: ($) =>
-      seq($.classifier_keyword, optional($.name_and_or_short_name)),
+      seq($.classifier_keyword, optional($.name_and_or_short_name), ";"),
 
     feature_statement: ($) =>
-      seq($.feature_keyword, optional($.name_and_or_short_name)),
+      seq($.feature_keyword, optional($.name_and_or_short_name), ";"),
 
     dependency_statement: ($) =>
       seq(
@@ -82,12 +75,18 @@ module.exports = grammar({
         $.qualified_name_sequence,
         $.to_keyword,
         $.qualified_name_sequence,
-        optional(seq("{", repeat($.statement), "}")),
+        choice(seq("{", repeat($.statement), "}"), ";"),
+      ),
+
+    // typical C-style comments
+    comment: (_) =>
+      choice(
+        token(seq("//", /.*/)), // single line
+        seq("/*", /[^*]*\*+([^/*][^*]*\*+)*/, "/"), // multi-line
       ),
   },
 
   extras: ($) => [
     /\s+/, // whitespace
-    $.comment, // your comment rules
   ],
 });
