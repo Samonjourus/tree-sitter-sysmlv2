@@ -17,7 +17,7 @@ module.exports = grammar({
     comment: (_) =>
       choice(
         token(seq("//", /.*/)), // single line
-        token(seq("/*", /[^*]*\*+([^/*][^*]*\*+)*/, "/")), // multi-line
+        seq("/*", /[^*]*\*+([^/*][^*]*\*+)*/, "/"), // multi-line
       ),
 
     // names ---
