@@ -133,6 +133,18 @@
         {
           "type": "SYMBOL",
           "name": "classifier_keyword"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "dependency_keyword"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "from_keyword"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "to_keyword"
         }
       ]
     },
@@ -150,6 +162,27 @@
         "value": "feature"
       }
     },
+    "dependency_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "dependency"
+      }
+    },
+    "from_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "from"
+      }
+    },
+    "to_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "to"
+      }
+    },
     "statement": {
       "type": "SEQ",
       "members": [
@@ -163,6 +196,10 @@
             {
               "type": "SYMBOL",
               "name": "classifier_statement"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "dependency_statement"
             }
           ]
         },
@@ -211,6 +248,35 @@
               "type": "BLANK"
             }
           ]
+        }
+      ]
+    },
+    "dependency_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "dependency_keyword"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "name_and_or_short_name"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "from_keyword"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "name_and_or_short_name"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "to_keyword"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "name_and_or_short_name"
         }
       ]
     }

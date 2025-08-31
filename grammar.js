@@ -36,20 +36,47 @@ module.exports = grammar({
       choice(seq($.short_name, $.name), $.name, $.short_name),
 
     // keywords ---
-    keyword: ($) => choice($.feature_keyword, $.classifier_keyword),
+    keyword: ($) =>
+      choice(
+        $.feature_keyword,
+        $.classifier_keyword,
+        $.dependency_keyword,
+        $.from_keyword,
+        $.to_keyword,
+      ),
 
     classifier_keyword: (_) => token("classifier"),
     feature_keyword: (_) => token("feature"),
+    dependency_keyword: (_) => token("dependency"),
+    from_keyword: (_) => token("from"),
+    to_keyword: (_) => token("to"),
 
     // statements ---
     statement: ($) =>
-      seq(choice($.feature_statement, $.classifier_statement), ";"),
+      seq(
+        choice(
+          $.feature_statement,
+          $.classifier_statement,
+          $.dependency_statement,
+        ),
+        ";",
+      ),
 
     classifier_statement: ($) =>
       seq($.classifier_keyword, optional($.name_and_or_short_name)),
 
     feature_statement: ($) =>
       seq($.feature_keyword, optional($.name_and_or_short_name)),
+
+    dependency_statement: ($) =>
+      seq(
+        $.dependency_keyword,
+        $.name_and_or_short_name,
+        $.from_keyword,
+        $.name_and_or_short_name,
+        $.to_keyword,
+        $.name_and_or_short_name,
+      ),
   },
 
   extras: ($) => [
