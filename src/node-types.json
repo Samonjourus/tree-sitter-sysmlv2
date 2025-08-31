@@ -48,6 +48,10 @@
           "named": true
         },
         {
+          "type": "statement",
+          "named": true
+        },
+        {
           "type": "to_keyword",
           "named": true
         }
@@ -246,5 +250,13 @@
   {
     "type": "unrestricted_name",
     "named": true
+  },
+  {
+    "type": "{",
+    "named": false
+  },
+  {
+    "type": "}",
+    "named": false
   }
 ]

@@ -82,6 +82,7 @@ module.exports = grammar({
         $.qualified_name_sequence,
         $.to_keyword,
         $.qualified_name_sequence,
+        optional(seq("{", repeat($.statement), "}")),
       ),
   },
 
