@@ -100,3 +100,38 @@ dependency layerA, layerB to layerC;
     )
   )
 )
+=========================
+multi-supplier dependency 
+=========================
+
+dependency layerA to layerB, layerC;
+
+---
+
+(source_file
+  (statement
+    (dependency_statement
+      (dependency_keyword)
+      (qualified_name_sequence
+        (qualified_name
+          (name
+            (basic_name)
+          )
+        )
+      )
+      (to_keyword)
+      (qualified_name_sequence
+        (qualified_name
+          (name
+            (basic_name)
+          )
+        )
+        (qualified_name
+          (name
+            (basic_name)
+          )
+        )
+      )
+    )
+  )
+)
