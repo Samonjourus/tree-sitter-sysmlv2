@@ -71,8 +71,10 @@ module.exports = grammar({
     dependency_statement: ($) =>
       seq(
         $.dependency_keyword,
-        $.name_and_or_short_name,
-        $.from_keyword,
+        optional(
+          // you can specify a name and use 'from' or just use 'from'
+          seq(optional($.name_and_or_short_name), $.from_keyword),
+        ),
         $.name_and_or_short_name,
         $.to_keyword,
         $.name_and_or_short_name,

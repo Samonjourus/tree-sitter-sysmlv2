@@ -259,12 +259,33 @@
           "name": "dependency_keyword"
         },
         {
-          "type": "SYMBOL",
-          "name": "name_and_or_short_name"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "from_keyword"
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "name_and_or_short_name"
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "from_keyword"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "SYMBOL",
