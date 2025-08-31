@@ -30,3 +30,30 @@ dependency Use from layerA to LayerB;
     )
   )
 )
+
+===================
+nameless dependency 
+===================
+
+dependency layerA to LayerB;
+
+---
+
+(source_file
+  (statement
+    (dependency_statement
+      (dependency_keyword)
+      (name_and_or_short_name
+        (name
+          (basic_name)
+        )
+      )
+      (to_keyword)
+      (name_and_or_short_name
+        (name
+          (basic_name)
+        )
+      )
+    )
+  )
+)
