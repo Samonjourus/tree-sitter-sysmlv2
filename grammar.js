@@ -30,26 +30,60 @@ module.exports = grammar({
     // names or short names will appear in Sysmlv2 text
     short_name: ($) => seq("<", choice($.basic_name, $.unrestricted_name), ">"),
     name: ($) => choice($.basic_name, $.unrestricted_name),
+    qualified_name: ($) => seq($.name, repeat(seq("::", $.name))),
+
+    qualified_name_sequence: ($) =>
+      seq($.qualified_name, repeat(seq(", ", $.qualified_name))),
 
     // handy ---
     name_and_or_short_name: ($) =>
       choice(seq($.short_name, $.name), $.name, $.short_name),
 
     // keywords ---
-    keyword: ($) => choice($.feature_keyword, $.classifier_keyword),
+    keyword: ($) =>
+      choice(
+        $.feature_keyword,
+        $.classifier_keyword,
+        $.dependency_keyword,
+        $.from_keyword,
+        $.to_keyword,
+      ),
 
     classifier_keyword: (_) => token("classifier"),
     feature_keyword: (_) => token("feature"),
+    dependency_keyword: (_) => token("dependency"),
+    from_keyword: (_) => token("from"),
+    to_keyword: (_) => token("to"),
 
     // statements ---
     statement: ($) =>
-      seq(choice($.feature_statement, $.classifier_statement), ";"),
+      seq(
+        choice(
+          $.feature_statement,
+          $.classifier_statement,
+          $.dependency_statement,
+        ),
+        ";",
+      ),
 
     classifier_statement: ($) =>
       seq($.classifier_keyword, optional($.name_and_or_short_name)),
 
     feature_statement: ($) =>
       seq($.feature_keyword, optional($.name_and_or_short_name)),
+
+    dependency_statement: ($) =>
+      seq(
+        $.dependency_keyword,
+        optional(
+          // you can specify a name and use 'from' or just use 'from'
+          seq(optional($.name_and_or_short_name), $.from_keyword),
+        ),
+        $.qualified_name_sequence,
+        $.to_keyword,
+        $.qualified_name_sequence,
+        optional(seq("{", repeat($.statement), "}")),
+      ),
   },
 
   extras: ($) => [
