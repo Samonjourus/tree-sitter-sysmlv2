@@ -16,15 +16,19 @@ dependency Use from layerA to LayerB;
         )
       )
       (from_keyword)
-      (name_and_or_short_name
-        (name
-          (basic_name)
+      (qualified_name_sequence
+        (qualified_name
+          (name
+            (basic_name)
+          )
         )
       )
       (to_keyword)
-      (name_and_or_short_name
-        (name
-          (basic_name)
+      (qualified_name_sequence
+        (qualified_name
+          (name
+            (basic_name)
+          )
         )
       )
     )
@@ -43,15 +47,19 @@ dependency layerA to LayerB;
   (statement
     (dependency_statement
       (dependency_keyword)
-      (name_and_or_short_name
-        (name
-          (basic_name)
+      (qualified_name_sequence
+        (qualified_name
+          (name
+            (basic_name)
+          )
         )
       )
       (to_keyword)
-      (name_and_or_short_name
-        (name
-          (basic_name)
+      (qualified_name_sequence
+        (qualified_name
+          (name
+            (basic_name)
+          )
         )
       )
     )
