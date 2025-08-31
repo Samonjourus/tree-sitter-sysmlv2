@@ -141,7 +141,7 @@ dependency with body
 
 dependency layerA to layerB {
   classifier;
-};
+}
 
 ---
 
