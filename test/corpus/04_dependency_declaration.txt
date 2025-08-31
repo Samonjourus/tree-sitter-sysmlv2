@@ -172,3 +172,40 @@ dependency layerA to layerB {
     )
   )
 )
+=========================
+scoped name dependency 
+=========================
+
+dependency layerAAA::layer::layerA to layerC;
+
+---
+
+(source_file
+  (statement
+    (dependency_statement
+      (dependency_keyword)
+      (qualified_name_sequence
+        (qualified_name
+          (name
+            (basic_name)
+          )
+          (name
+            (basic_name)
+          )
+          (name
+            (basic_name)
+          )
+        )
+      )
+      (to_keyword)
+      (qualified_name_sequence
+        (qualified_name
+          (name
+            (basic_name)
+          )
+        )
+      )
+    )
+  )
+)
+
