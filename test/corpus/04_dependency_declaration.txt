@@ -208,4 +208,39 @@ dependency layerAAA::layer::layerA to layerC;
     )
   )
 )
+=========================
+scoped short name dependency 
+=========================
 
+dependency layerAAA::'layer 4 fun'::layerA to layerC;
+
+---
+
+(source_file
+  (statement
+    (dependency_statement
+      (dependency_keyword)
+      (qualified_name_sequence
+        (qualified_name
+          (name
+            (basic_name)
+          )
+          (name
+            (unrestricted_name)
+          )
+          (name
+            (basic_name)
+          )
+        )
+      )
+      (to_keyword)
+      (qualified_name_sequence
+        (qualified_name
+          (name
+            (basic_name)
+          )
+        )
+      )
+    )
+  )
+)
