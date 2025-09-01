@@ -69,7 +69,7 @@ comment about part::attribute1
             (basic_name)
           )
           (name
-            (unrestricted_name)
+            (basic_name)
           )
         )
       (comment)
