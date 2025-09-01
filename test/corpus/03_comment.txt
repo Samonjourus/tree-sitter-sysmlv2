@@ -41,7 +41,7 @@ comment Comment1
     (comment_statement
       (comment_keyword)
       (name_and_or_short_name
-        (short_name
+        (name
           (basic_name)
         )
       )
