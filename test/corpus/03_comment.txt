@@ -1,0 +1,78 @@
+===================
+single line comment
+===================
+
+// this is some text
+
+---
+
+(source_file
+  (statement
+    (comment)
+  )
+)
+
+===================
+multi-line comment
+===================
+
+/* this is some text!
+ and this is the longer part... */
+
+---
+
+(source_file
+  (statement
+    (comment)
+  )
+)
+
+=================
+comment statement
+=================
+
+comment Comment1
+/*This is a comment.*/
+
+---
+
+(source_file
+  (statement
+    (comment_statement
+      (comment_keyword)
+      (name_and_or_short_name
+        (name
+          (basic_name)
+        )
+      )
+      (comment)
+    )
+  )
+)
+
+==================
+annotation comment
+==================
+
+comment about part::attribute1 
+/* The annotated element is attribute 1*/
+
+---
+
+(source_file
+  (statement
+    (comment_statement
+      (comment_keyword)
+      (about_keyword)
+        (qualified_name
+          (name
+            (basic_name)
+          )
+          (name
+            (basic_name)
+          )
+        )
+      (comment)
+    )
+  )
+)

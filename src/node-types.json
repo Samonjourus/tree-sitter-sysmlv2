@@ -24,6 +24,37 @@
     "fields": {}
   },
   {
+    "type": "comment_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "about_keyword",
+          "named": true
+        },
+        {
+          "type": "comment",
+          "named": true
+        },
+        {
+          "type": "comment_keyword",
+          "named": true
+        },
+        {
+          "type": "name_and_or_short_name",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "dependency_statement",
     "named": true,
     "fields": {},
@@ -59,6 +90,45 @@
     }
   },
   {
+    "type": "documentation_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "about_keyword",
+          "named": true
+        },
+        {
+          "type": "comment",
+          "named": true
+        },
+        {
+          "type": "doc_keyword",
+          "named": true
+        },
+        {
+          "type": "locale_code",
+          "named": true
+        },
+        {
+          "type": "locale_keyword",
+          "named": true
+        },
+        {
+          "type": "name_and_or_short_name",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "feature_statement",
     "named": true,
     "fields": {},
@@ -76,6 +146,16 @@
         }
       ]
     }
+  },
+  {
+    "type": "language_name",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "locale_code",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "name",
@@ -146,6 +226,33 @@
     }
   },
   {
+    "type": "representation_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "comment",
+          "named": true
+        },
+        {
+          "type": "language_keyword",
+          "named": true
+        },
+        {
+          "type": "language_name",
+          "named": true
+        },
+        {
+          "type": "rep_keyword",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "short_name",
     "named": true,
     "fields": {},
@@ -197,15 +304,31 @@
           "named": true
         },
         {
+          "type": "comment_statement",
+          "named": true
+        },
+        {
           "type": "dependency_statement",
+          "named": true
+        },
+        {
+          "type": "documentation_statement",
           "named": true
         },
         {
           "type": "feature_statement",
           "named": true
+        },
+        {
+          "type": "representation_statement",
+          "named": true
         }
       ]
     }
+  },
+  {
+    "type": "\"",
+    "named": false
   },
   {
     "type": ", ",
@@ -236,6 +359,10 @@
     "named": false
   },
   {
+    "type": "about_keyword",
+    "named": true
+  },
+  {
     "type": "basic_name",
     "named": true
   },
@@ -244,7 +371,15 @@
     "named": true
   },
   {
+    "type": "comment_keyword",
+    "named": true
+  },
+  {
     "type": "dependency_keyword",
+    "named": true
+  },
+  {
+    "type": "doc_keyword",
     "named": true
   },
   {
@@ -253,6 +388,18 @@
   },
   {
     "type": "from_keyword",
+    "named": true
+  },
+  {
+    "type": "language_keyword",
+    "named": true
+  },
+  {
+    "type": "locale_keyword",
+    "named": true
+  },
+  {
+    "type": "rep_keyword",
     "named": true
   },
   {
