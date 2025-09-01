@@ -50,9 +50,9 @@ comment Comment1
   )
 )
 
-==========
-annotation
-==========
+==================
+annotation comment
+==================
 
 comment about part::attribute1 
 /* The annotated element is attribute 1*/

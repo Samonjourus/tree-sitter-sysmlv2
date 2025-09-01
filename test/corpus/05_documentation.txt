@@ -60,9 +60,9 @@ pipe. */
   )
 )
 
-==========
-annotation
-==========
+========================
+annotation documentation
+========================
 
 dependency d1 to d2  {
 doc /*
