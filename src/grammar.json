@@ -1,0 +1,401 @@
+{
+  "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/grammar.schema.json",
+  "name": "tree_sitter_sysmlv2",
+  "rules": {
+    "source_file": {
+      "type": "REPEAT",
+      "content": {
+        "type": "SYMBOL",
+        "name": "statement"
+      }
+    },
+    "basic_name": {
+      "type": "PATTERN",
+      "value": "[A-Za-z_][A-Za-z0-9_]*"
+    },
+    "unrestricted_name": {
+      "type": "PATTERN",
+      "value": "'([^'\\\\]|\\\\.)*'"
+    },
+    "short_name": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "<"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "basic_name"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "unrestricted_name"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": ">"
+        }
+      ]
+    },
+    "name": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "basic_name"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "unrestricted_name"
+        }
+      ]
+    },
+    "qualified_name": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "name"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "::"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "name"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "qualified_name_sequence": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "qualified_name"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": ", "
+              },
+              {
+                "type": "SYMBOL",
+                "name": "qualified_name"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "name_and_or_short_name": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "short_name"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "name"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "name"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "short_name"
+        }
+      ]
+    },
+    "keyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "feature_keyword"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "classifier_keyword"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "dependency_keyword"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "from_keyword"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "to_keyword"
+        }
+      ]
+    },
+    "classifier_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "classifier"
+      }
+    },
+    "feature_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "feature"
+      }
+    },
+    "dependency_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "dependency"
+      }
+    },
+    "from_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "from"
+      }
+    },
+    "to_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "to"
+      }
+    },
+    "statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "feature_statement"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "classifier_statement"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "dependency_statement"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "comment"
+            }
+          ]
+        }
+      ]
+    },
+    "classifier_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "classifier_keyword"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "name_and_or_short_name"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": ";"
+        }
+      ]
+    },
+    "feature_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "feature_keyword"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "name_and_or_short_name"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": ";"
+        }
+      ]
+    },
+    "dependency_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "dependency_keyword"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "name_and_or_short_name"
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "from_keyword"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "qualified_name_sequence"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "to_keyword"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "qualified_name_sequence"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "{"
+                },
+                {
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "statement"
+                  }
+                },
+                {
+                  "type": "STRING",
+                  "value": "}"
+                }
+              ]
+            },
+            {
+              "type": "STRING",
+              "value": ";"
+            }
+          ]
+        }
+      ]
+    },
+    "comment": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "TOKEN",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "//"
+              },
+              {
+                "type": "PATTERN",
+                "value": ".*"
+              }
+            ]
+          }
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "/*"
+            },
+            {
+              "type": "PATTERN",
+              "value": "[^*]*\\*+([^/*][^*]*\\*+)*"
+            },
+            {
+              "type": "STRING",
+              "value": "/"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "extras": [
+    {
+      "type": "PATTERN",
+      "value": "\\s+"
+    }
+  ],
+  "conflicts": [],
+  "precedences": [],
+  "externals": [],
+  "inline": [],
+  "supertypes": [],
+  "reserved": {}
+}
