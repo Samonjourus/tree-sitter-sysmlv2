@@ -30,7 +30,7 @@ documentation.*/
     (documentation_statement
       (doc_keyword)
       (name_and_or_short_name
-        (short_name
+        (name
           (basic_name)
         )
       )
