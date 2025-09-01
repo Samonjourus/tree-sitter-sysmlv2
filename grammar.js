@@ -203,7 +203,7 @@ module.exports = grammar({
     connection_keyword: (_) => token("connection"),
     constant_keyword: (_) => token("constant"),
     constraint_keyword: (_) => token("constraint"),
-    crosses_keyword: (_) => token("crosses"),
+    crosses_keyword: (_) => choice(token("crosses"), token("=>")),
     decide_keyword: (_) => token("decide"),
     def_keyword: (_) => token("def"),
     default_keyword: (_) => token("default"),
@@ -265,9 +265,9 @@ module.exports = grammar({
     private_keyword: (_) => token("private"),
     protected_keyword: (_) => token("protected"),
     public_keyword: (_) => token("public"),
-    redefines_keyword: (_) => token("redefines"),
+    redefines_keyword: (_) => choice(token("redefines"), token(":>>")),
     ref_keyword: (_) => token("ref"),
-    references_keyword: (_) => token("references"),
+    references_keyword: (_) => choice(token("references"), token("::>")),
     render_keyword: (_) => token("render"),
     rendering_keyword: (_) => token("rendering"),
     rep_keyword: (_) => token("rep"),
@@ -277,12 +277,12 @@ module.exports = grammar({
     satisfy_keyword: (_) => token("satisfy"),
     send_keyword: (_) => token("send"),
     snapshot_keyword: (_) => token("snapshot"),
-    specializes_keyword: (_) => token("specializes"),
+    specializes_keyword: (_) => choice(token("specializes"), token(":>")),
     stakeholder_keyword: (_) => token("stakeholder"),
     standard_keyword: (_) => token("standard"),
     state_keyword: (_) => token("state"),
     subject_keyword: (_) => token("subject"),
-    subsets_keyword: (_) => token("subsets"),
+    subsets_keyword: (_) => choice(token("subsets"), token(":>")),
     succession_keyword: (_) => token("succession"),
     terminate_keyword: (_) => token("terminate"),
     then_keyword: (_) => token("the"),
@@ -302,6 +302,9 @@ module.exports = grammar({
     when_keyword: (_) => token("when"),
     while_keyword: (_) => token("while"),
     xor_keyword: (_) => token("xor"),
+
+    // special matching terminal for defined_by
+    defined_by: (_) => choice(token(":"), seq($.defined_keyword, $.by_keyword)),
 
     feature_keyword: (_) => token("feature"), // from KerMl
     classifier_keyword: (_) => token("classifier"), // from KerML
