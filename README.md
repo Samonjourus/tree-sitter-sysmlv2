@@ -7,7 +7,7 @@ Active WIP...
 According to the [SysMLv2 specification](https://www.omg.org/spec/SysML/2.0/Beta4/Language/PDF), there are 25 sections to implement:
 
 - [x] Dependencies
-- [ ] Annotations
+- [x] Annotations
 - [ ] Namespaces and Packages
 - [ ] Definitions and Usage
 - [ ] Attributes
