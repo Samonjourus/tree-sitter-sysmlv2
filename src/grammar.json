@@ -164,6 +164,13 @@
         "value": "classifier"
       }
     },
+    "comment_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "comment"
+      }
+    },
     "feature_keyword": {
       "type": "TOKEN",
       "content": {
@@ -213,6 +220,10 @@
             {
               "type": "SYMBOL",
               "name": "comment"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "comment_statement"
             }
           ]
         }
@@ -240,6 +251,31 @@
         {
           "type": "STRING",
           "value": ";"
+        }
+      ]
+    },
+    "comment_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "comment_keyword"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "name_and_or_short_name"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "comment"
         }
       ]
     },

@@ -24,6 +24,29 @@
     "fields": {}
   },
   {
+    "type": "comment_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "comment",
+          "named": true
+        },
+        {
+          "type": "comment_keyword",
+          "named": true
+        },
+        {
+          "type": "name_and_or_short_name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "dependency_statement",
     "named": true,
     "fields": {},
@@ -197,6 +220,10 @@
           "named": true
         },
         {
+          "type": "comment_statement",
+          "named": true
+        },
+        {
           "type": "dependency_statement",
           "named": true
         },
@@ -241,6 +268,10 @@
   },
   {
     "type": "classifier_keyword",
+    "named": true
+  },
+  {
+    "type": "comment_keyword",
     "named": true
   },
   {
