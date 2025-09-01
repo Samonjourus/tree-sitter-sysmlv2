@@ -148,6 +148,11 @@
     }
   },
   {
+    "type": "language_name",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "locale_code",
     "named": true,
     "fields": {}
@@ -221,6 +226,33 @@
     }
   },
   {
+    "type": "representation_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "comment",
+          "named": true
+        },
+        {
+          "type": "language_keyword",
+          "named": true
+        },
+        {
+          "type": "language_name",
+          "named": true
+        },
+        {
+          "type": "rep_keyword",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "short_name",
     "named": true,
     "fields": {},
@@ -285,6 +317,10 @@
         },
         {
           "type": "feature_statement",
+          "named": true
+        },
+        {
+          "type": "representation_statement",
           "named": true
         }
       ]
@@ -355,7 +391,15 @@
     "named": true
   },
   {
+    "type": "language_keyword",
+    "named": true
+  },
+  {
     "type": "locale_keyword",
+    "named": true
+  },
+  {
+    "type": "rep_keyword",
     "named": true
   },
   {
