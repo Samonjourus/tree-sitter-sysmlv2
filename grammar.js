@@ -28,6 +28,10 @@ module.exports = grammar({
     qualified_name_sequence: ($) =>
       seq($.qualified_name, repeat(seq(", ", $.qualified_name))),
 
+    // locales
+    // NOTE: probably should split this into components
+    locale_code: ($) => seq('"', /[A-Za-z0-9_@]*/, '"'),
+
     // handy ---
     name_and_or_short_name: ($) =>
       choice(seq($.short_name, $.name), $.name, $.short_name),
@@ -49,6 +53,7 @@ module.exports = grammar({
     dependency_keyword: (_) => token("dependency"),
     from_keyword: (_) => token("from"),
     to_keyword: (_) => token("to"),
+    locale_keyword: (_) => token("locale"),
     about_keyword: (_) => token("about"),
 
     // statements ---
@@ -79,6 +84,7 @@ module.exports = grammar({
       seq(
         $.doc_keyword,
         optional($.name_and_or_short_name),
+        optional(seq($.locale_keyword, $.locale_code)),
         optional(seq($.about_keyword, $.qualified_name)),
         $.comment,
       ),

@@ -106,6 +106,23 @@
         }
       ]
     },
+    "locale_code": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "\""
+        },
+        {
+          "type": "PATTERN",
+          "value": "[A-Za-z0-9_@]*"
+        },
+        {
+          "type": "STRING",
+          "value": "\""
+        }
+      ]
+    },
     "name_and_or_short_name": {
       "type": "CHOICE",
       "members": [
@@ -171,6 +188,13 @@
         "value": "comment"
       }
     },
+    "doc_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "doc"
+      }
+    },
     "feature_keyword": {
       "type": "TOKEN",
       "content": {
@@ -197,6 +221,13 @@
       "content": {
         "type": "STRING",
         "value": "to"
+      }
+    },
+    "locale_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "locale"
       }
     },
     "about_keyword": {
@@ -231,6 +262,10 @@
             {
               "type": "SYMBOL",
               "name": "comment_statement"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "documentation_statement"
             }
           ]
         }
@@ -274,6 +309,73 @@
             {
               "type": "SYMBOL",
               "name": "name_and_or_short_name"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "about_keyword"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "qualified_name"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "comment"
+        }
+      ]
+    },
+    "documentation_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "doc_keyword"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "name_and_or_short_name"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "locale_keyword"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "locale_code"
+                }
+              ]
             },
             {
               "type": "BLANK"

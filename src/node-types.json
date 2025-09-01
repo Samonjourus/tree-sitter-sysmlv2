@@ -90,6 +90,45 @@
     }
   },
   {
+    "type": "documentation_statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "about_keyword",
+          "named": true
+        },
+        {
+          "type": "comment",
+          "named": true
+        },
+        {
+          "type": "doc_keyword",
+          "named": true
+        },
+        {
+          "type": "locale_code",
+          "named": true
+        },
+        {
+          "type": "locale_keyword",
+          "named": true
+        },
+        {
+          "type": "name_and_or_short_name",
+          "named": true
+        },
+        {
+          "type": "qualified_name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "feature_statement",
     "named": true,
     "fields": {},
@@ -107,6 +146,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "locale_code",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "name",
@@ -236,11 +280,19 @@
           "named": true
         },
         {
+          "type": "documentation_statement",
+          "named": true
+        },
+        {
           "type": "feature_statement",
           "named": true
         }
       ]
     }
+  },
+  {
+    "type": "\"",
+    "named": false
   },
   {
     "type": ", ",
@@ -291,11 +343,19 @@
     "named": true
   },
   {
+    "type": "doc_keyword",
+    "named": true
+  },
+  {
     "type": "feature_keyword",
     "named": true
   },
   {
     "type": "from_keyword",
+    "named": true
+  },
+  {
+    "type": "locale_keyword",
     "named": true
   },
   {
