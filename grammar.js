@@ -48,6 +48,7 @@ module.exports = grammar({
     dependency_keyword: (_) => token("dependency"),
     from_keyword: (_) => token("from"),
     to_keyword: (_) => token("to"),
+    about_keyword: (_) => token("about"),
 
     // statements ---
     statement: ($) =>
@@ -65,7 +66,12 @@ module.exports = grammar({
       seq($.classifier_keyword, optional($.name_and_or_short_name), ";"),
 
     comment_statement: ($) =>
-      seq($.comment_keyword, optional($.name_and_or_short_name), $.comment),
+      seq(
+        $.comment_keyword,
+        optional($.name_and_or_short_name),
+        optional(seq($.about_keyword, $.qualified_name)),
+        $.comment,
+      ),
 
     feature_statement: ($) =>
       seq($.feature_keyword, optional($.name_and_or_short_name), ";"),

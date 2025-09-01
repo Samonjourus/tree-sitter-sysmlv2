@@ -199,6 +199,13 @@
         "value": "to"
       }
     },
+    "about_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "about"
+      }
+    },
     "statement": {
       "type": "SEQ",
       "members": [
@@ -267,6 +274,27 @@
             {
               "type": "SYMBOL",
               "name": "name_and_or_short_name"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "about_keyword"
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "qualified_name"
+                }
+              ]
             },
             {
               "type": "BLANK"
