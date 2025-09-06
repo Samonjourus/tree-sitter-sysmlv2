@@ -1,18 +1,37 @@
 [
   {
-    "type": "classifier_statement",
+    "type": "annotating_element",
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
-          "type": "classifier_keyword",
+          "type": "comment",
           "named": true
         },
         {
-          "type": "name_and_or_short_name",
+          "type": "documentation",
+          "named": true
+        },
+        {
+          "type": "textual_representation",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "annotation",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "qualified_name",
           "named": true
         }
       ]
@@ -20,11 +39,6 @@
   },
   {
     "type": "comment",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "comment_statement",
     "named": true,
     "fields": {},
     "children": {
@@ -36,7 +50,7 @@
           "named": true
         },
         {
-          "type": "comment",
+          "type": "annotation",
           "named": true
         },
         {
@@ -44,11 +58,65 @@
           "named": true
         },
         {
-          "type": "name_and_or_short_name",
+          "type": "identification",
           "named": true
         },
         {
-          "type": "qualified_name",
+          "type": "locale_keyword",
+          "named": true
+        },
+        {
+          "type": "regular_comment",
+          "named": true
+        },
+        {
+          "type": "string_value",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "definition_element",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "annotating_element",
+          "named": true
+        },
+        {
+          "type": "dependency",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "dependency",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "dependency_keyword",
+          "named": true
+        },
+        {
+          "type": "dependency_statement",
+          "named": true
+        },
+        {
+          "type": "prefix_metadata_annotation",
+          "named": true
+        },
+        {
+          "type": "relationship_body",
           "named": true
         }
       ]
@@ -63,23 +131,15 @@
       "required": true,
       "types": [
         {
-          "type": "dependency_keyword",
-          "named": true
-        },
-        {
           "type": "from_keyword",
           "named": true
         },
         {
-          "type": "name_and_or_short_name",
+          "type": "identification",
           "named": true
         },
         {
-          "type": "qualified_name_sequence",
-          "named": true
-        },
-        {
-          "type": "statement",
+          "type": "qualified_name",
           "named": true
         },
         {
@@ -90,7 +150,7 @@
     }
   },
   {
-    "type": "documentation_statement",
+    "type": "documentation",
     "named": true,
     "fields": {},
     "children": {
@@ -98,19 +158,11 @@
       "required": true,
       "types": [
         {
-          "type": "about_keyword",
-          "named": true
-        },
-        {
-          "type": "comment",
-          "named": true
-        },
-        {
           "type": "doc_keyword",
           "named": true
         },
         {
-          "type": "locale_code",
+          "type": "identification",
           "named": true
         },
         {
@@ -118,18 +170,18 @@
           "named": true
         },
         {
-          "type": "name_and_or_short_name",
+          "type": "regular_comment",
           "named": true
         },
         {
-          "type": "qualified_name",
+          "type": "string_value",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "feature_statement",
+    "type": "identification",
     "named": true,
     "fields": {},
     "children": {
@@ -137,25 +189,11 @@
       "required": true,
       "types": [
         {
-          "type": "feature_keyword",
-          "named": true
-        },
-        {
-          "type": "name_and_or_short_name",
+          "type": "name",
           "named": true
         }
       ]
     }
-  },
-  {
-    "type": "language_name",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "locale_code",
-    "named": true,
-    "fields": {}
   },
   {
     "type": "name",
@@ -177,19 +215,125 @@
     }
   },
   {
-    "type": "name_and_or_short_name",
+    "type": "owned_annotation",
     "named": true,
     "fields": {},
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
-          "type": "name",
+          "type": "annotating_element",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "owned_feature_chain",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "qualified_name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "owned_feature_typing",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "owned_feature_chain",
           "named": true
         },
         {
-          "type": "short_name",
+          "type": "qualified_name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "package_body_element",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "alias_member",
+          "named": true
+        },
+        {
+          "type": "element_filter_member",
+          "named": true
+        },
+        {
+          "type": "import",
+          "named": true
+        },
+        {
+          "type": "package_member",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "package_member",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "definition_element",
+          "named": true
+        },
+        {
+          "type": "usage_element",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "prefix_metadata_annotation",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "prefix_metadata_usage",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "prefix_metadata_usage",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "owned_feature_typing",
           "named": true
         }
       ]
@@ -211,38 +355,71 @@
     }
   },
   {
-    "type": "qualified_name_sequence",
+    "type": "relationship_body",
     "named": true,
     "fields": {},
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
-          "type": "qualified_name",
+          "type": "owned_annotation",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "representation_statement",
+    "type": "root_namespace",
     "named": true,
+    "root": true,
     "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "package_body_element",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "textual_representation",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "regular_comment",
+            "named": true
+          }
+        ]
+      },
+      "language": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "string_value",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
       "required": true,
       "types": [
         {
-          "type": "comment",
+          "type": "identification",
           "named": true
         },
         {
           "type": "language_keyword",
-          "named": true
-        },
-        {
-          "type": "language_name",
           "named": true
         },
         {
@@ -253,93 +430,15 @@
     }
   },
   {
-    "type": "short_name",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "basic_name",
-          "named": true
-        },
-        {
-          "type": "unrestricted_name",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "source_file",
-    "named": true,
-    "root": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "statement",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "statement",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "classifier_statement",
-          "named": true
-        },
-        {
-          "type": "comment",
-          "named": true
-        },
-        {
-          "type": "comment_statement",
-          "named": true
-        },
-        {
-          "type": "dependency_statement",
-          "named": true
-        },
-        {
-          "type": "documentation_statement",
-          "named": true
-        },
-        {
-          "type": "feature_statement",
-          "named": true
-        },
-        {
-          "type": "representation_statement",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "\"",
+    "type": "#",
     "named": false
   },
   {
-    "type": ", ",
+    "type": "$",
     "named": false
   },
   {
-    "type": "/",
-    "named": false
-  },
-  {
-    "type": "/*",
+    "type": ",",
     "named": false
   },
   {
@@ -363,11 +462,11 @@
     "named": true
   },
   {
-    "type": "basic_name",
+    "type": "alias_member",
     "named": true
   },
   {
-    "type": "classifier_keyword",
+    "type": "basic_name",
     "named": true
   },
   {
@@ -383,11 +482,15 @@
     "named": true
   },
   {
-    "type": "feature_keyword",
+    "type": "element_filter_member",
     "named": true
   },
   {
     "type": "from_keyword",
+    "named": true
+  },
+  {
+    "type": "import",
     "named": true
   },
   {
@@ -399,7 +502,15 @@
     "named": true
   },
   {
+    "type": "regular_comment",
+    "named": true
+  },
+  {
     "type": "rep_keyword",
+    "named": true
+  },
+  {
+    "type": "string_value",
     "named": true
   },
   {
@@ -408,6 +519,10 @@
   },
   {
     "type": "unrestricted_name",
+    "named": true
+  },
+  {
+    "type": "usage_element",
     "named": true
   },
   {

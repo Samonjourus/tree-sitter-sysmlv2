@@ -1,7 +1,7 @@
 [package]
 name = "tree-sitter-tree-sitter-sysmlv2"
 description = "TreeSitter parser for Systems MOdelling Language Version 2"
-version = "0.1.0"
+version = "0.2.1"
 authors = ["Benjamin Standfield <benjaminstandfield@gmail.com>"]
 license = "MIT"
 readme = "README.md"
