@@ -90,7 +90,7 @@ module.exports = {
   return_keyword: _ => token("return"),
 
   specialization_keyword: _ => token("specialization"),
-  n specializes_keyword: _ => token("specializes"),
+  specializes_keyword: _ => token("specializes"),
   standard_keyword: _ => token("standard"),
   step_keyword: _ => token("step"),
   struct_keyword: _ => token("struct"),
