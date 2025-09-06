@@ -9,6 +9,44 @@
         "name": "statement"
       }
     },
+    "statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "documentation_statement"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "comment_statement"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "representation_statement"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "dependency_statement"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "classifier_statement"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "feature_statement"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "comment"
+            }
+          ]
+        }
+      ]
+    },
     "basic_name": {
       "type": "PATTERN",
       "value": "[A-Za-z_][A-Za-z0-9_]*"
@@ -106,6 +144,32 @@
         }
       ]
     },
+    "name_and_or_short_name": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "short_name"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "name"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "name"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "short_name"
+        }
+      ]
+    },
     "locale_code": {
       "type": "SEQ",
       "members": [
@@ -140,31 +204,19 @@
         }
       ]
     },
-    "name_and_or_short_name": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "short_name"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "name"
-            }
-          ]
-        },
-        {
-          "type": "SYMBOL",
-          "name": "name"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "short_name"
-        }
-      ]
+    "feature_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "feature"
+      }
+    },
+    "classifier_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "classifier"
+      }
     },
     "about_keyword": {
       "type": "TOKEN",
@@ -1147,44 +1199,6 @@
         }
       ]
     },
-    "statement": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "feature_statement"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "classifier_statement"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "dependency_statement"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "comment"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "comment_statement"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "documentation_statement"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "representation_statement"
-            }
-          ]
-        }
-      ]
-    },
     "classifier_statement": {
       "type": "SEQ",
       "members": [
@@ -1207,6 +1221,69 @@
         {
           "type": "STRING",
           "value": ";"
+        }
+      ]
+    },
+    "feature_statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "feature_keyword"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "name_and_or_short_name"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": ";"
+        }
+      ]
+    },
+    "comment": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "TOKEN",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "//"
+              },
+              {
+                "type": "PATTERN",
+                "value": ".*"
+              }
+            ]
+          }
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "/*"
+            },
+            {
+              "type": "PATTERN",
+              "value": "[^*]*\\*+([^/*][^*]*\\*+)*"
+            },
+            {
+              "type": "STRING",
+              "value": "/"
+            }
+          ]
         }
       ]
     },
@@ -1352,31 +1429,6 @@
         }
       ]
     },
-    "feature_statement": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "feature_keyword"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "name_and_or_short_name"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "STRING",
-          "value": ";"
-        }
-      ]
-    },
     "dependency_statement": {
       "type": "SEQ",
       "members": [
@@ -1455,58 +1507,6 @@
           ]
         }
       ]
-    },
-    "comment": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "TOKEN",
-          "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "STRING",
-                "value": "//"
-              },
-              {
-                "type": "PATTERN",
-                "value": ".*"
-              }
-            ]
-          }
-        },
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "STRING",
-              "value": "/*"
-            },
-            {
-              "type": "PATTERN",
-              "value": "[^*]*\\*+([^/*][^*]*\\*+)*"
-            },
-            {
-              "type": "STRING",
-              "value": "/"
-            }
-          ]
-        }
-      ]
-    },
-    "feature_keyword": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "feature"
-      }
-    },
-    "classifier_keyword": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "classifier"
-      }
     }
   },
   "extras": [
