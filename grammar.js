@@ -13,6 +13,8 @@ module.exports = grammar({
   rules: {
     source_file: ($) => repeat($.statement),
 
+    // --- SysML ---
+
     // names ---
     // There are two types of names. Basic names are traditional identifiers.
     // unrestricted_names are single quoted strings that can contain any
@@ -306,9 +308,6 @@ module.exports = grammar({
     // special matching terminal for defined_by
     defined_by: (_) => choice(token(":"), seq($.defined_keyword, $.by_keyword)),
 
-    feature_keyword: (_) => token("feature"), // from KerMl
-    classifier_keyword: (_) => token("classifier"), // from KerML
-
     // statements ---
     statement: ($) =>
       seq(
@@ -373,6 +372,10 @@ module.exports = grammar({
         token(seq("//", /.*/)), // single line
         seq("/*", /[^*]*\*+([^/*][^*]*\*+)*/, "/"), // multi-line
       ),
+
+    // --- KerML ---
+    feature_keyword: (_) => token("feature"), // from KerMl
+    classifier_keyword: (_) => token("classifier"), // from KerML
   },
 
   extras: ($) => [
