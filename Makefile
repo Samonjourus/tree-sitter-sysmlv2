@@ -4,7 +4,7 @@ endif
 
 LANGUAGE_NAME := tree-sitter-tree-sitter-sysmlv2
 HOMEPAGE_URL := https://github.com/tree-sitter/tree-sitter-tree_sitter_sysmlv2
-VERSION := 0.1.0
+VERSION := 0.2.1
 
 # repository
 SRC_DIR := src

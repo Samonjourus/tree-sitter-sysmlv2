@@ -1,0 +1,118 @@
+=============
+doc statement
+=============
+
+doc /*This is documentation.*/
+
+---
+
+(root_namespace
+  (package_body_element
+    (package_member
+      (definition_element
+        (annotating_element
+          (documentation
+            (doc_keyword)
+            (regular_comment)
+          )
+        )
+      )
+    )
+  )
+)
+
+===================
+named doc statement
+===================
+
+doc doc1 /*This is
+documentation.*/
+
+---
+
+(root_namespace
+  (package_body_element
+    (package_member
+      (definition_element
+        (annotating_element
+          (documentation
+            (doc_keyword)
+            (identification
+              (name
+                (basic_name)
+              )
+            )
+            (regular_comment)
+          )
+        )
+      )
+    )
+  )
+)
+==========================
+locale-aware doc statement
+==========================
+
+doc locale "fr_BE"
+/* Ceci n'est pas une
+pipe. */
+
+---
+
+(root_namespace
+  (package_body_element
+    (package_member
+      (definition_element
+        (annotating_element
+          (documentation
+            (doc_keyword)
+            (locale_keyword)
+            (string_value)
+            (regular_comment)
+          )
+        )
+      )
+    )
+  )
+)
+
+========================
+annotation documentation
+========================
+
+dependency d1 to d2  {
+doc /*
+documentation-text */
+}
+
+---
+
+(root_namespace
+  (package_body_element
+    (package_member
+      (definition_element
+        (dependency
+          (dependency_keyword)
+          (dependency_statement
+            (qualified_name
+              (name
+                (basic_name)))
+            (to_keyword)
+            (qualified_name
+              (name
+                (basic_name))))
+          (relationship_body
+            (owned_annotation
+              (annotating_element
+                (documentation
+                  (doc_keyword)
+                  (regular_comment)
+                )
+              )
+            )
+          )
+        )
+      )
+    )
+  )
+)

@@ -1,0 +1,52 @@
+========================
+textual representation 1
+========================
+
+rep language "language1"
+/* body1 */
+
+---
+
+(root_namespace
+  (package_body_element
+    (package_member
+      (definition_element
+        (annotating_element
+          (textual_representation
+            (rep_keyword)
+            (language_keyword)
+            (string_value)
+            (regular_comment)
+          )
+        )
+      )
+    )
+  )
+)
+
+========================
+textual representation 2
+========================
+
+language "language1"
+/* body1 */
+
+---
+
+(root_namespace
+  (package_body_element
+    (package_member
+      (definition_element
+        (annotating_element
+          (textual_representation
+            (language_keyword)
+            (string_value)
+            (regular_comment)
+          )
+        )
+      )
+    )
+  )
+)
+
+
