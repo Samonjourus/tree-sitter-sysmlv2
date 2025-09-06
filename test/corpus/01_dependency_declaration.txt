@@ -108,7 +108,7 @@ dependency with body
 =========================
 
 dependency layerA to layerB {
-  // some comment classifier
+  /* some comment classifier */
 }
 
 ---
