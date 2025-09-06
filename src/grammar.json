@@ -325,6 +325,10 @@
         {
           "type": "SYMBOL",
           "name": "documentation"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "textual_representation"
         }
       ]
     },
@@ -1874,6 +1878,60 @@
         {
           "type": "SYMBOL",
           "name": "regular_comment"
+        }
+      ]
+    },
+    "textual_representation": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "rep_keyword"
+                },
+                {
+                  "type": "CHOICE",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "identification"
+                    },
+                    {
+                      "type": "BLANK"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "language_keyword"
+        },
+        {
+          "type": "FIELD",
+          "name": "language",
+          "content": {
+            "type": "SYMBOL",
+            "name": "string_value"
+          }
+        },
+        {
+          "type": "FIELD",
+          "name": "body",
+          "content": {
+            "type": "SYMBOL",
+            "name": "regular_comment"
+          }
         }
       ]
     },

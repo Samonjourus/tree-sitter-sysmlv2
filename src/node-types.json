@@ -14,6 +14,10 @@
         {
           "type": "documentation",
           "named": true
+        },
+        {
+          "type": "textual_representation",
+          "named": true
         }
       ]
     }
@@ -382,6 +386,50 @@
     }
   },
   {
+    "type": "textual_representation",
+    "named": true,
+    "fields": {
+      "body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "regular_comment",
+            "named": true
+          }
+        ]
+      },
+      "language": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "string_value",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identification",
+          "named": true
+        },
+        {
+          "type": "language_keyword",
+          "named": true
+        },
+        {
+          "type": "rep_keyword",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "#",
     "named": false
   },
@@ -446,11 +494,19 @@
     "named": true
   },
   {
+    "type": "language_keyword",
+    "named": true
+  },
+  {
     "type": "locale_keyword",
     "named": true
   },
   {
     "type": "regular_comment",
+    "named": true
+  },
+  {
+    "type": "rep_keyword",
     "named": true
   },
   {

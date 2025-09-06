@@ -17,7 +17,7 @@ module.exports = {
     choice(
       $.comment,
       $.documentation,
-      //"", //$.textual_representation,
+      $.textual_representation,
       //"", //$.metadata_feature,
     ),
 

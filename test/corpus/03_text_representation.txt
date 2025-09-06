@@ -7,13 +7,19 @@ rep language "language1"
 
 ---
 
-(source_file
-  (statement
-    (representation_statement
-      (rep_keyword)
-      (language_keyword)
-      (language_name)
-      (comment)
+(root_namespace
+  (package_body_element
+    (package_member
+      (definition_element
+        (annotating_element
+          (textual_representation
+            (rep_keyword)
+            (language_keyword)
+            (string_value)
+            (regular_comment)
+          )
+        )
+      )
     )
   )
 )
@@ -27,12 +33,20 @@ language "language1"
 
 ---
 
-(source_file
-  (statement
-    (representation_statement
-      (language_keyword)
-      (language_name)
-      (comment)
+(root_namespace
+  (package_body_element
+    (package_member
+      (definition_element
+        (annotating_element
+          (textual_representation
+            (language_keyword)
+            (string_value)
+            (regular_comment)
+          )
+        )
+      )
     )
   )
 )
+
+

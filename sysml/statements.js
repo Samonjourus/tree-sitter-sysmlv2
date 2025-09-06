@@ -22,6 +22,14 @@ module.exports = {
       $.regular_comment,
     ),
 
+  textual_representation: ($) =>
+    seq(
+      optional(seq($.rep_keyword, optional($.identification))),
+      $.language_keyword,
+      field("language", $.string_value),
+      field("body", $.regular_comment),
+    ),
+
   // section 8.2.2.3: Dependencies
   dependency: ($) =>
     seq(
