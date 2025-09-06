@@ -3,16 +3,28 @@ module.exports = {
   // There are two types of names. Basic names are traditional identifiers.
   // unrestricted_names are single quoted strings that can contain any
   // character (not really but kinda...).
-  basic_name: (_) => /[A-Za-z_][A-Za-z0-9_]*/,
-  unrestricted_name: (_) => /'([^'\\]|\\.)*'/,
-
-  // names or short names will appear in Sysmlv2 text
-  short_name: ($) => seq("<", choice($.basic_name, $.unrestricted_name), ">"),
   name: ($) => choice($.basic_name, $.unrestricted_name),
-  qualified_name: ($) => seq($.name, repeat(seq("::", $.name))),
 
-  qualified_name_sequence: ($) =>
-    seq($.qualified_name, repeat(seq(", ", $.qualified_name))),
+  basic_name: ($) =>
+    seq($.basic_initial_character, repeat($.basic_name_character)),
+
+  unrestricted_name: ($) =>
+    seq("'", repeat(choice($.name_character, $.escape_sequence)), "'"),
+
+  basic_initial_character: ($) => choice($.alphabetic_character, "_"),
+
+  basic_name_character: ($) =>
+    choice($.basic_initial_character, $.decimal_digit),
+
+  decimal_digit: (_) => /[0-9]/,
+
+  alphabetic_character: (_) => /[A-Za-z]/,
+
+  name_character: (_) => /[^\p{C}\\']/u,
+
+  escape_sequence: (_) =>
+    choice("\\\\", "\\n", "\\t", "\\'", '\\"', "\\b", "\\f"),
+
 
   name_and_or_short_name: ($) =>
     choice(seq($.short_name, $.name), $.name, $.short_name),
