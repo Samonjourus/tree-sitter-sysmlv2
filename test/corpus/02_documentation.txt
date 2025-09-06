@@ -2,16 +2,21 @@
 doc statement
 =============
 
-doc /*This is
-documentation.*/
+doc /*This is documentation.*/
 
 ---
 
-(source_file
-  (statement
-    (documentation_statement
-      (doc_keyword)
-      (comment)
+(root_namespace
+  (package_body_element
+    (package_member
+      (definition_element
+        (annotating_element
+          (documentation
+            (doc_keyword)
+            (regular_comment)
+          )
+        )
+      )
     )
   )
 )
@@ -25,20 +30,25 @@ documentation.*/
 
 ---
 
-(source_file
-  (statement
-    (documentation_statement
-      (doc_keyword)
-      (name_and_or_short_name
-        (name
-          (basic_name)
+(root_namespace
+  (package_body_element
+    (package_member
+      (definition_element
+        (annotating_element
+          (documentation
+            (doc_keyword)
+            (identification
+              (name
+                (basic_name)
+              )
+            )
+            (regular_comment)
+          )
         )
       )
-      (comment)
     )
   )
 )
-
 ==========================
 locale-aware doc statement
 ==========================
@@ -49,13 +59,19 @@ pipe. */
 
 ---
 
-(source_file
-  (statement
-    (documentation_statement
-      (doc_keyword)
-      (locale_keyword)
-      (locale_code)
-      (comment)
+(root_namespace
+  (package_body_element
+    (package_member
+      (definition_element
+        (annotating_element
+          (documentation
+            (doc_keyword)
+            (locale_keyword)
+            (string_value)
+            (regular_comment)
+          )
+        )
+      )
     )
   )
 )
@@ -71,29 +87,30 @@ documentation-text */
 
 ---
 
-(source_file
-  (statement
-    (dependency_statement
-      (dependency_keyword)
-      (qualified_name_sequence
-        (qualified_name
-          (name
-            (basic_name)
+(root_namespace
+  (package_body_element
+    (package_member
+      (definition_element
+        (dependency
+          (dependency_keyword)
+          (dependency_statement
+            (qualified_name
+              (name
+                (basic_name)))
+            (to_keyword)
+            (qualified_name
+              (name
+                (basic_name))))
+          (relationship_body
+            (owned_annotation
+              (annotating_element
+                (documentation
+                  (doc_keyword)
+                  (regular_comment)
+                )
+              )
+            )
           )
-        )
-      )
-      (to_keyword)
-      (qualified_name_sequence
-        (qualified_name
-          (name
-            (basic_name)
-          )
-        )
-      )
-      (statement
-        (documentation_statement
-          (doc_keyword)
-          (comment)
         )
       )
     )
