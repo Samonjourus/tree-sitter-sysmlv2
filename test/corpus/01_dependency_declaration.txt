@@ -130,7 +130,8 @@ dependency layerA to layerB {
             (relationship_body
               (owned_annotation
                 (annotating_element
-                (comment)))))))))
+                  (comment
+                  (regular_comment))))))))))
 
 =========================
 scoped name dependency 

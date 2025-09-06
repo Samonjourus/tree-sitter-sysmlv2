@@ -15,9 +15,58 @@
     }
   },
   {
+    "type": "annotation",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "qualified_name",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "comment",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "about_keyword",
+          "named": true
+        },
+        {
+          "type": "annotation",
+          "named": true
+        },
+        {
+          "type": "comment_keyword",
+          "named": true
+        },
+        {
+          "type": "identification",
+          "named": true
+        },
+        {
+          "type": "locale_keyword",
+          "named": true
+        },
+        {
+          "type": "regular_comment",
+          "named": true
+        },
+        {
+          "type": "string_value",
+          "named": true
+        }
+      ]
+    }
   },
   {
     "type": "definition_element",
@@ -306,14 +355,6 @@
     "named": false
   },
   {
-    "type": "/",
-    "named": false
-  },
-  {
-    "type": "/*",
-    "named": false
-  },
-  {
     "type": "::",
     "named": false
   },
@@ -330,11 +371,19 @@
     "named": false
   },
   {
+    "type": "about_keyword",
+    "named": true
+  },
+  {
     "type": "alias_member",
     "named": true
   },
   {
     "type": "basic_name",
+    "named": true
+  },
+  {
+    "type": "comment_keyword",
     "named": true
   },
   {
@@ -351,6 +400,18 @@
   },
   {
     "type": "import",
+    "named": true
+  },
+  {
+    "type": "locale_keyword",
+    "named": true
+  },
+  {
+    "type": "regular_comment",
+    "named": true
+  },
+  {
+    "type": "string_value",
     "named": true
   },
   {

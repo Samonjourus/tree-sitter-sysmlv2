@@ -4,7 +4,14 @@ module.exports = {
 
   multiline_note: ($) => seq("//*", /(?:.|\r|\n)*?(?=\*\/)/, "*/"),
 
-  regular_comment: ($) => seq("/*", /(?:.|\r|\n)*?(?=\*\/)/, "*/"),
+  regular_comment: ($) =>
+    token(
+      seq(
+        "/*",
+        /[^*]*\*+([^/*][^*]*\*+)*/, // any run of chars that isn't the closing */
+        "/",
+      ),
+    ),
 
   comment_content: (_) => token(/(?:.|\r|\n)*?(?=\*\/)/),
 
