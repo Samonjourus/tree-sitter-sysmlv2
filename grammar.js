@@ -10,14 +10,8 @@
 const sysml = require("./sysml/core");
 const kerml = require("./kerml/core");
 
-let statement_keys = Object.keys(sysml["statements"]).concat(
-  Object.keys(kerml["statements"]),
-);
-
 let merged = {
-  source_file: ($) => repeat($.statement),
-
-  statement: ($) => seq(choice(...statement_keys.map((k) => $[k]))),
+  root_namespace: ($) => repeat($.package_body_element),
 
   ...kerml["terms"],
   ...sysml["terms"],

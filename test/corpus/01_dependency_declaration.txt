@@ -1,0 +1,189 @@
+============================
+basic dependency declaration
+============================
+
+dependency Use from layerA to LayerB;
+
+---
+
+(root_namespace
+  (package_body_element
+    (package_member
+      (definition_element
+        (dependency
+          (dependency_keyword)
+          (dependency_statement
+            (identification
+              (name
+                (basic_name)))
+            (from_keyword)
+            (qualified_name
+              (name
+                (basic_name)))
+            (to_keyword)
+            (qualified_name
+              (name
+                (basic_name))))
+            (relationship_body))))))
+
+===================
+nameless dependency 
+===================
+
+dependency layerA to LayerB;
+
+---
+
+(root_namespace
+  (package_body_element
+    (package_member
+      (definition_element
+        (dependency
+          (dependency_keyword)
+          (dependency_statement
+            (qualified_name
+              (name
+                (basic_name)))
+            (to_keyword)
+            (qualified_name
+              (name
+                (basic_name))))
+            (relationship_body))))))
+
+=======================
+multi-client dependency 
+=======================
+
+dependency layerA, layerB to layerC;
+
+---
+
+(root_namespace
+  (package_body_element
+    (package_member
+      (definition_element
+        (dependency
+          (dependency_keyword)
+          (dependency_statement
+            (qualified_name
+              (name
+                (basic_name)))
+            (qualified_name
+              (name
+                (basic_name)))
+            (to_keyword)
+            (qualified_name
+              (name
+                (basic_name))))
+            (relationship_body))))))
+=========================
+multi-supplier dependency 
+=========================
+
+dependency layerA to layerB, layerC;
+
+---
+
+(root_namespace
+  (package_body_element
+    (package_member
+      (definition_element
+        (dependency
+          (dependency_keyword)
+          (dependency_statement
+            (qualified_name
+              (name
+                (basic_name)))
+            (to_keyword)
+            (qualified_name
+              (name
+                (basic_name)))
+            (qualified_name
+              (name
+                (basic_name))))
+            (relationship_body))))))
+
+=========================
+dependency with body
+=========================
+
+dependency layerA to layerB {
+  // some comment classifier
+}
+
+---
+
+(root_namespace
+  (package_body_element
+    (package_member
+      (definition_element
+        (dependency
+          (dependency_keyword)
+          (dependency_statement
+            (qualified_name
+              (name
+                (basic_name)))
+            (to_keyword)
+            (qualified_name
+              (name
+                (basic_name))))
+            (relationship_body
+              (owned_annotation
+                (annotating_element
+                (comment)))))))))
+
+=========================
+scoped name dependency 
+=========================
+
+dependency layerAAA::layer::layerA to layerC;
+
+---
+
+(root_namespace
+  (package_body_element
+    (package_member
+      (definition_element
+        (dependency
+          (dependency_keyword)
+          (dependency_statement
+            (qualified_name
+              (name
+                (basic_name))
+              (name
+                (basic_name))
+              (name
+                (basic_name)))
+            (to_keyword)
+            (qualified_name
+              (name
+                (basic_name))))
+            (relationship_body))))))
+
+=========================
+scoped short name dependency 
+=========================
+
+dependency layerAAA::'layer 4 fun'::layerA to layerC;
+
+---
+
+(root_namespace
+  (package_body_element
+    (package_member
+      (definition_element
+        (dependency
+          (dependency_keyword)
+          (dependency_statement
+            (qualified_name
+              (name
+                (basic_name))
+              (name
+                (unrestricted_name))
+              (name
+                (basic_name)))
+            (to_keyword)
+            (qualified_name
+              (name
+                (basic_name))))
+            (relationship_body))))))

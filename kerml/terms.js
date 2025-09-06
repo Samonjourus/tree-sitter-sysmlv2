@@ -1,48 +1,46 @@
 module.exports = {
+  // comments ---
+  single_line_note: ($) => seq("//", /[^\r\n]*/),
+
+  multiline_note: ($) => seq("//*", /(?:.|\r|\n)*?(?=\*\/)/, "*/"),
+
+  regular_comment: ($) => seq("/*", /(?:.|\r|\n)*?(?=\*\/)/, "*/"),
+
+  comment_content: (_) => token(/(?:.|\r|\n)*?(?=\*\/)/),
+
   // names ---
   // There are two types of names. Basic names are traditional identifiers.
   // unrestricted_names are single quoted strings that can contain any
   // character (not really but kinda...).
   name: ($) => choice($.basic_name, $.unrestricted_name),
 
-  basic_name: ($) =>
-    seq($.basic_initial_character, repeat($.basic_name_character)),
+  basic_name: ($) => /[A-Za-z_][A-Za-z0-9_]*/,
 
-  unrestricted_name: ($) =>
-    seq("'", repeat(choice($.name_character, $.escape_sequence)), "'"),
-
-  basic_initial_character: ($) => choice($.alphabetic_character, "_"),
-
-  basic_name_character: ($) =>
-    choice($.basic_initial_character, $.decimal_digit),
-
-  decimal_digit: (_) => /[0-9]/,
-
-  alphabetic_character: (_) => /[A-Za-z]/,
-
-  name_character: (_) => /[^\p{C}\\']/u,
-
-  escape_sequence: (_) =>
-    choice("\\\\", "\\n", "\\t", "\\'", '\\"', "\\b", "\\f"),
+  // WARN: I don't think this allowed escaped '
+  unrestricted_name: ($) => token(/'(?:[^'\\]|\\[\\nyt"'bf])*'/),
 
   // Literals
-  decimal_value: seq($.decimal_digit, repeat($.decimal_digit)),
-  exponential_value: seq(
-    $.decimal_value,
-    optional(choice("+", "-")),
-    $.decimal_value,
-  ),
+  decimal_value: ($) => /[0-9]+/,
 
-  string_value: seq(
-    '"',
-    repeat(choice($.string_character, $.escape_sequence)),
-    '"',
-  ),
+  exponential_value: ($) => /[0-9]+[eE][+-]?[0-9]+/,
+
+  // WARN: I don't think this allowed escaped "
+  string_value: ($) => token(/"(?:[^"\\]|\\[\\nyt"'bf])*"/),
 
   string_character: (_) => /[^\p{C}\\"]/u,
 
   // shortcut for "typed by"
-  typed_by: (_) => choice(seq($.typed_keyword, $.by_keyword), token(":")),
+  typed_by: ($) => choice(seq($.typed_keyword, $.by_keyword), token(":")),
+
+  // section 8.2.3.4 - Namespaces
+  // NOTE: Incomplete
+
+  qualified_name: ($) =>
+    seq(
+      optional(choice(token("$"), token("::"))),
+      repeat(seq($.name, token("::"))),
+      $.name,
+    ),
 
   // other (temp name)
   // NOTE: probably should split this into components

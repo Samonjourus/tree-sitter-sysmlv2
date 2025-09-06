@@ -2,84 +2,66 @@
   "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/grammar.schema.json",
   "name": "tree_sitter_sysmlv2",
   "rules": {
-    "source_file": {
+    "root_namespace": {
       "type": "REPEAT",
       "content": {
         "type": "SYMBOL",
-        "name": "statement"
+        "name": "package_body_element"
       }
     },
-    "statement": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "documentation_statement"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "comment_statement"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "representation_statement"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "dependency_statement"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "classifier_statement"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "feature_statement"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "comment"
-            }
-          ]
-        }
-      ]
-    },
-    "basic_name": {
-      "type": "PATTERN",
-      "value": "[A-Za-z_][A-Za-z0-9_]*"
-    },
-    "unrestricted_name": {
-      "type": "PATTERN",
-      "value": "'([^'\\\\]|\\\\.)*'"
-    },
-    "short_name": {
+    "single_line_note": {
       "type": "SEQ",
       "members": [
         {
           "type": "STRING",
-          "value": "<"
+          "value": "//"
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "basic_name"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "unrestricted_name"
-            }
-          ]
+          "type": "PATTERN",
+          "value": "[^\\r\\n]*"
+        }
+      ]
+    },
+    "multiline_note": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "//*"
+        },
+        {
+          "type": "PATTERN",
+          "value": "(?:.|\\r|\\n)*?(?=\\*\\/)"
         },
         {
           "type": "STRING",
-          "value": ">"
+          "value": "*/"
         }
       ]
+    },
+    "regular_comment": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "/*"
+        },
+        {
+          "type": "PATTERN",
+          "value": "(?:.|\\r|\\n)*?(?=\\*\\/)"
+        },
+        {
+          "type": "STRING",
+          "value": "*/"
+        }
+      ]
+    },
+    "comment_content": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PATTERN",
+        "value": "(?:.|\\r|\\n)*?(?=\\*\\/)"
+      }
     },
     "name": {
       "type": "CHOICE",
@@ -94,57 +76,38 @@
         }
       ]
     },
-    "qualified_name": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "name"
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "STRING",
-                "value": "::"
-              },
-              {
-                "type": "SYMBOL",
-                "name": "name"
-              }
-            ]
-          }
-        }
-      ]
+    "basic_name": {
+      "type": "PATTERN",
+      "value": "[A-Za-z_][A-Za-z0-9_]*"
     },
-    "qualified_name_sequence": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "qualified_name"
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SEQ",
-            "members": [
-              {
-                "type": "STRING",
-                "value": ", "
-              },
-              {
-                "type": "SYMBOL",
-                "name": "qualified_name"
-              }
-            ]
-          }
-        }
-      ]
+    "unrestricted_name": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PATTERN",
+        "value": "'(?:[^'\\\\]|\\\\[\\\\nyt\"'bf])*'"
+      }
     },
-    "name_and_or_short_name": {
+    "decimal_value": {
+      "type": "PATTERN",
+      "value": "[0-9]+"
+    },
+    "exponential_value": {
+      "type": "PATTERN",
+      "value": "[0-9]+[eE][+-]?[0-9]+"
+    },
+    "string_value": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PATTERN",
+        "value": "\"(?:[^\"\\\\]|\\\\[\\\\nyt\"'bf])*\""
+      }
+    },
+    "string_character": {
+      "type": "PATTERN",
+      "value": "[^\\p{C}\\\\\"]",
+      "flags": "u"
+    },
+    "typed_by": {
       "type": "CHOICE",
       "members": [
         {
@@ -152,21 +115,75 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "short_name"
+              "name": "typed_keyword"
             },
             {
               "type": "SYMBOL",
-              "name": "name"
+              "name": "by_keyword"
             }
           ]
         },
         {
-          "type": "SYMBOL",
-          "name": "name"
+          "type": "TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": ":"
+          }
+        }
+      ]
+    },
+    "qualified_name": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "TOKEN",
+                  "content": {
+                    "type": "STRING",
+                    "value": "$"
+                  }
+                },
+                {
+                  "type": "TOKEN",
+                  "content": {
+                    "type": "STRING",
+                    "value": "::"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "name"
+              },
+              {
+                "type": "TOKEN",
+                "content": {
+                  "type": "STRING",
+                  "value": "::"
+                }
+              }
+            ]
+          }
         },
         {
           "type": "SYMBOL",
-          "name": "short_name"
+          "name": "name"
         }
       ]
     },
@@ -204,19 +221,210 @@
         }
       ]
     },
-    "feature_keyword": {
+    "identification": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "<"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "name"
+            },
+            {
+              "type": "STRING",
+              "value": ">"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "name"
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "<"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "name"
+            },
+            {
+              "type": "STRING",
+              "value": ">"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "name"
+            }
+          ]
+        }
+      ]
+    },
+    "relationship_body": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": ";"
+          }
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "STRING",
+              "value": "{"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SYMBOL",
+                "name": "owned_annotation"
+              }
+            },
+            {
+              "type": "STRING",
+              "value": "}"
+            }
+          ]
+        }
+      ]
+    },
+    "annotation": {
+      "type": "SYMBOL",
+      "name": "qualified_name"
+    },
+    "owned_annotation": {
+      "type": "SYMBOL",
+      "name": "annotating_element"
+    },
+    "annotating_member": {
+      "type": "SYMBOL",
+      "name": "annotating_element"
+    },
+    "annotating_element": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "comment"
+        }
+      ]
+    },
+    "package_body_element": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "package_member"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "element_filter_member"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "alias_member"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "import"
+        }
+      ]
+    },
+    "package_member": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "definition_element"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "usage_element"
+        }
+      ]
+    },
+    "element_filter_member": {
+      "type": "STRING",
+      "value": "06a5998e-4600-4331-985c-11c8cf20a1d4"
+    },
+    "alias_member": {
+      "type": "STRING",
+      "value": "18aa5fe4-775b-4b29-b49e-32bd73a5a38f"
+    },
+    "import": {
+      "type": "STRING",
+      "value": "e273276f-9194-4692-b8d5-199968ea8f4f"
+    },
+    "definition_element": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "dependency"
+        }
+      ]
+    },
+    "usage_element": {
       "type": "TOKEN",
       "content": {
         "type": "STRING",
-        "value": "feature"
+        "value": "1f2d6440-95a3-4bb9-b6a9-79b334e73027"
       }
     },
-    "classifier_keyword": {
-      "type": "TOKEN",
+    "owned_feature_typing": {
+      "type": "PREC",
+      "value": 1,
       "content": {
-        "type": "STRING",
-        "value": "classifier"
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "qualified_name"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "owned_feature_chain"
+          }
+        ]
       }
+    },
+    "owned_feature_chain": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "qualified_name"
+        }
+      ]
+    },
+    "prefix_metadata_annotation": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "#"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "prefix_metadata_usage"
+        }
+      ]
+    },
+    "prefix_metadata_usage": {
+      "type": "SYMBOL",
+      "name": "owned_feature_typing"
     },
     "about_keyword": {
       "type": "TOKEN",
@@ -230,6 +438,771 @@
       "content": {
         "type": "STRING",
         "value": "abstract"
+      }
+    },
+    "alias_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "alias"
+      }
+    },
+    "all_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "all"
+      }
+    },
+    "and_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "and"
+      }
+    },
+    "as_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "as"
+      }
+    },
+    "assoc_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "assoc"
+      }
+    },
+    "behavior_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "behavior"
+      }
+    },
+    "binding_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "binding"
+      }
+    },
+    "bool_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "bool"
+      }
+    },
+    "by_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "by"
+      }
+    },
+    "chains_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "chains"
+      }
+    },
+    "class_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "class"
+      }
+    },
+    "classifier_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "classifier"
+      }
+    },
+    "comment_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "comment"
+      }
+    },
+    "composite_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "composite"
+      }
+    },
+    "conjugate_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "conjugate"
+      }
+    },
+    "conjugates_keyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": "conjugates"
+          }
+        },
+        {
+          "type": "TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": "~"
+          }
+        }
+      ]
+    },
+    "conjugation_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "conjugation"
+      }
+    },
+    "connector_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "connector"
+      }
+    },
+    "const_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "const"
+      }
+    },
+    "crosses_keyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": "crosses"
+          }
+        },
+        {
+          "type": "TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": "=>"
+          }
+        }
+      ]
+    },
+    "datatype_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "datatype"
+      }
+    },
+    "default_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "default"
+      }
+    },
+    "dependency_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "dependency"
+      }
+    },
+    "derived_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "derived"
+      }
+    },
+    "differences_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "differences"
+      }
+    },
+    "disjoining_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "disjoining"
+      }
+    },
+    "disjoint_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "disjoint"
+      }
+    },
+    "doc_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "doc"
+      }
+    },
+    "else_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "else"
+      }
+    },
+    "end_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "end"
+      }
+    },
+    "expr_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "expr"
+      }
+    },
+    "false_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "false"
+      }
+    },
+    "feature_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "feature"
+      }
+    },
+    "featured_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "featured"
+      }
+    },
+    "featuring_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "featuring"
+      }
+    },
+    "filter_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "filter"
+      }
+    },
+    "first_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "first"
+      }
+    },
+    "flow_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "flow"
+      }
+    },
+    "for_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "for"
+      }
+    },
+    "from_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "from"
+      }
+    },
+    "function_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "function"
+      }
+    },
+    "hastype_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "hastype"
+      }
+    },
+    "if_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "if"
+      }
+    },
+    "implies_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "implies"
+      }
+    },
+    "import_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "import"
+      }
+    },
+    "in_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "in"
+      }
+    },
+    "inout_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "inout"
+      }
+    },
+    "interaction_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "interaction"
+      }
+    },
+    "intersects_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "intersects"
+      }
+    },
+    "inv_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "inv"
+      }
+    },
+    "inverse_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "inverse"
+      }
+    },
+    "inverting_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "inverting"
+      }
+    },
+    "istype_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "istype"
+      }
+    },
+    "language_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "language"
+      }
+    },
+    "library_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "library"
+      }
+    },
+    "locale_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "locale"
+      }
+    },
+    "member_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "member"
+      }
+    },
+    "meta_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "meta"
+      }
+    },
+    "metaclass_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "metaclass"
+      }
+    },
+    "metadata_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "metadata"
+      }
+    },
+    "multiplicity_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "multiplicity"
+      }
+    },
+    "namespace_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "namespace"
+      }
+    },
+    "nonunique_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "nonunique"
+      }
+    },
+    "not_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "not"
+      }
+    },
+    "null_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "null"
+      }
+    },
+    "of_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "of"
+      }
+    },
+    "or_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "or"
+      }
+    },
+    "ordered_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "ordered"
+      }
+    },
+    "out_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "out"
+      }
+    },
+    "package_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "package"
+      }
+    },
+    "portion_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "portion"
+      }
+    },
+    "predicate_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "predicate"
+      }
+    },
+    "private_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "private"
+      }
+    },
+    "protected_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "protected"
+      }
+    },
+    "public_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "public"
+      }
+    },
+    "redefines_keyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": "redefines"
+          }
+        },
+        {
+          "type": "TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": ":>>"
+          }
+        }
+      ]
+    },
+    "redefinition_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "redefinition"
+      }
+    },
+    "references_keyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": "references"
+          }
+        },
+        {
+          "type": "TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": "::>"
+          }
+        }
+      ]
+    },
+    "rep_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "rep"
+      }
+    },
+    "return_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "return"
+      }
+    },
+    "specialization_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "specialization"
+      }
+    },
+    "specializes_keyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": "specializes"
+          }
+        },
+        {
+          "type": "TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": ":>"
+          }
+        }
+      ]
+    },
+    "standard_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "standard"
+      }
+    },
+    "step_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "step"
+      }
+    },
+    "struct_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "struct"
+      }
+    },
+    "subclassifier_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "subclassifier"
+      }
+    },
+    "subset_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "subset"
+      }
+    },
+    "subsets_keyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": "subsets"
+          }
+        },
+        {
+          "type": "TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": ":>"
+          }
+        }
+      ]
+    },
+    "subtype_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "subtype"
+      }
+    },
+    "succession_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "succession"
+      }
+    },
+    "then_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "the"
+      }
+    },
+    "to_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "to"
+      }
+    },
+    "true_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "true"
+      }
+    },
+    "type_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "type"
+      }
+    },
+    "typed_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "typed"
+      }
+    },
+    "typing_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "typing"
+      }
+    },
+    "unions_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "unions"
+      }
+    },
+    "var_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "var"
+      }
+    },
+    "xor_keyword": {
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "xor"
       }
     },
     "accept_keyword": {
@@ -260,20 +1233,6 @@
         "value": "after"
       }
     },
-    "alias_keyword": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "alias"
-      }
-    },
-    "all_keyword": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "all"
-      }
-    },
     "allocate_keyword": {
       "type": "TOKEN",
       "content": {
@@ -293,20 +1252,6 @@
       "content": {
         "type": "STRING",
         "value": "analysis"
-      }
-    },
-    "and_keyword": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "and"
-      }
-    },
-    "as_keyword": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "as"
       }
     },
     "assert_keyword": {
@@ -351,20 +1296,6 @@
         "value": "bind"
       }
     },
-    "binding_keyword": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "binding"
-      }
-    },
-    "by_keyword": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "by"
-      }
-    },
     "calc_keyword": {
       "type": "TOKEN",
       "content": {
@@ -377,13 +1308,6 @@
       "content": {
         "type": "STRING",
         "value": "case"
-      }
-    },
-    "comment_keyword": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "comment"
       }
     },
     "concern_keyword": {
@@ -421,25 +1345,6 @@
         "value": "constraint"
       }
     },
-    "crosses_keyword": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "TOKEN",
-          "content": {
-            "type": "STRING",
-            "value": "crosses"
-          }
-        },
-        {
-          "type": "TOKEN",
-          "content": {
-            "type": "STRING",
-            "value": "=>"
-          }
-        }
-      ]
-    },
     "decide_keyword": {
       "type": "TOKEN",
       "content": {
@@ -454,13 +1359,6 @@
         "value": "def"
       }
     },
-    "default_keyword": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "default"
-      }
-    },
     "defined_keyword": {
       "type": "TOKEN",
       "content": {
@@ -468,46 +1366,11 @@
         "value": "defined"
       }
     },
-    "dependency_keyword": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "dependency"
-      }
-    },
-    "derived_keyword": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "derived"
-      }
-    },
     "do_keyword": {
       "type": "TOKEN",
       "content": {
         "type": "STRING",
         "value": "do"
-      }
-    },
-    "doc_keyword": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "doc"
-      }
-    },
-    "else_keyword": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "else"
-      }
-    },
-    "end_keyword": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "end"
       }
     },
     "entry_keyword": {
@@ -552,41 +1415,6 @@
         "value": "expose"
       }
     },
-    "false_keyword": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "false"
-      }
-    },
-    "filter_keyword": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "filter"
-      }
-    },
-    "first_keyword": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "first"
-      }
-    },
-    "flow_keyword": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "flow"
-      }
-    },
-    "for_keyword": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "for"
-      }
-    },
     "fork_keyword": {
       "type": "TOKEN",
       "content": {
@@ -599,48 +1427,6 @@
       "content": {
         "type": "STRING",
         "value": "frame"
-      }
-    },
-    "from_keyword": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "from"
-      }
-    },
-    "hastype_keyword": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "hastype"
-      }
-    },
-    "if_keyword": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "if"
-      }
-    },
-    "implies_keyword": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "implies"
-      }
-    },
-    "import_keyword": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "import"
-      }
-    },
-    "in_keyword": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "in"
       }
     },
     "include_keyword": {
@@ -657,25 +1443,11 @@
         "value": "individual"
       }
     },
-    "inout_keyword": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "inout"
-      }
-    },
     "interface_keyword": {
       "type": "TOKEN",
       "content": {
         "type": "STRING",
         "value": "interface"
-      }
-    },
-    "istype_keyword": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "istype"
       }
     },
     "item_keyword": {
@@ -690,27 +1462,6 @@
       "content": {
         "type": "STRING",
         "value": "join"
-      }
-    },
-    "language_keyword": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "language"
-      }
-    },
-    "library_keyword": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "library"
-      }
-    },
-    "locale_keyword": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "locale"
       }
     },
     "loop_keyword": {
@@ -734,41 +1485,6 @@
         "value": "message"
       }
     },
-    "meta_keyword": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "meta"
-      }
-    },
-    "metadata_keyword": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "metadata"
-      }
-    },
-    "nonunique_keyword": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "nonunique"
-      }
-    },
-    "not_keyword": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "not"
-      }
-    },
-    "null_keyword": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "null"
-      }
-    },
     "objective_keyword": {
       "type": "TOKEN",
       "content": {
@@ -781,41 +1497,6 @@
       "content": {
         "type": "STRING",
         "value": "occurrence"
-      }
-    },
-    "of_keyword": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "of"
-      }
-    },
-    "or_keyword": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "or"
-      }
-    },
-    "ordered_keyword": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "ordered"
-      }
-    },
-    "out_keyword": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "out"
-      }
-    },
-    "package_keyword": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "package"
       }
     },
     "parallel_keyword": {
@@ -846,71 +1527,12 @@
         "value": "port"
       }
     },
-    "private_keyword": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "private"
-      }
-    },
-    "protected_keyword": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "protected"
-      }
-    },
-    "public_keyword": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "public"
-      }
-    },
-    "redefines_keyword": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "TOKEN",
-          "content": {
-            "type": "STRING",
-            "value": "redefines"
-          }
-        },
-        {
-          "type": "TOKEN",
-          "content": {
-            "type": "STRING",
-            "value": ":>>"
-          }
-        }
-      ]
-    },
     "ref_keyword": {
       "type": "TOKEN",
       "content": {
         "type": "STRING",
         "value": "ref"
       }
-    },
-    "references_keyword": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "TOKEN",
-          "content": {
-            "type": "STRING",
-            "value": "references"
-          }
-        },
-        {
-          "type": "TOKEN",
-          "content": {
-            "type": "STRING",
-            "value": "::>"
-          }
-        }
-      ]
     },
     "render_keyword": {
       "type": "TOKEN",
@@ -926,13 +1548,6 @@
         "value": "rendering"
       }
     },
-    "rep_keyword": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "rep"
-      }
-    },
     "require_keyword": {
       "type": "TOKEN",
       "content": {
@@ -945,13 +1560,6 @@
       "content": {
         "type": "STRING",
         "value": "requirement"
-      }
-    },
-    "return_keyword": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "return"
       }
     },
     "satisfy_keyword": {
@@ -975,37 +1583,11 @@
         "value": "snapshot"
       }
     },
-    "specializes_keyword": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "TOKEN",
-          "content": {
-            "type": "STRING",
-            "value": "specializes"
-          }
-        },
-        {
-          "type": "TOKEN",
-          "content": {
-            "type": "STRING",
-            "value": ":>"
-          }
-        }
-      ]
-    },
     "stakeholder_keyword": {
       "type": "TOKEN",
       "content": {
         "type": "STRING",
         "value": "stakeholder"
-      }
-    },
-    "standard_keyword": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "standard"
       }
     },
     "state_keyword": {
@@ -1022,44 +1604,11 @@
         "value": "subject"
       }
     },
-    "subsets_keyword": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "TOKEN",
-          "content": {
-            "type": "STRING",
-            "value": "subsets"
-          }
-        },
-        {
-          "type": "TOKEN",
-          "content": {
-            "type": "STRING",
-            "value": ":>"
-          }
-        }
-      ]
-    },
-    "succession_keyword": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "succession"
-      }
-    },
     "terminate_keyword": {
       "type": "TOKEN",
       "content": {
         "type": "STRING",
         "value": "terminate"
-      }
-    },
-    "then_keyword": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "the"
       }
     },
     "timeslice_keyword": {
@@ -1069,25 +1618,11 @@
         "value": "timeslice"
       }
     },
-    "to_keyword": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "to"
-      }
-    },
     "transition_keyword": {
       "type": "TOKEN",
       "content": {
         "type": "STRING",
         "value": "transition"
-      }
-    },
-    "true_keyword": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "true"
       }
     },
     "until_keyword": {
@@ -1167,13 +1702,6 @@
         "value": "while"
       }
     },
-    "xor_keyword": {
-      "type": "TOKEN",
-      "content": {
-        "type": "STRING",
-        "value": "xor"
-      }
-    },
     "defined_by": {
       "type": "CHOICE",
       "members": [
@@ -1196,56 +1724,6 @@
               "name": "by_keyword"
             }
           ]
-        }
-      ]
-    },
-    "classifier_statement": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "classifier_keyword"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "name_and_or_short_name"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "STRING",
-          "value": ";"
-        }
-      ]
-    },
-    "feature_statement": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "feature_keyword"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "name_and_or_short_name"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "STRING",
-          "value": ";"
         }
       ]
     },
@@ -1287,145 +1765,27 @@
         }
       ]
     },
-    "documentation_statement": {
+    "dependency": {
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "doc_keyword"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "name_and_or_short_name"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "locale_keyword"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "locale_code"
-                }
-              ]
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "about_keyword"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "qualified_name"
-                }
-              ]
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "prefix_metadata_annotation"
+          }
         },
         {
           "type": "SYMBOL",
-          "name": "comment"
-        }
-      ]
-    },
-    "comment_statement": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "comment_keyword"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "name_and_or_short_name"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "about_keyword"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "qualified_name"
-                }
-              ]
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
+          "name": "dependency_keyword"
         },
         {
           "type": "SYMBOL",
-          "name": "comment"
-        }
-      ]
-    },
-    "representation_statement": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "rep_keyword"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
+          "name": "dependency_statement"
         },
         {
           "type": "SYMBOL",
-          "name": "language_keyword"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "language_name"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "comment"
+          "name": "relationship_body"
         }
       ]
     },
@@ -1433,26 +1793,14 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "dependency_keyword"
-        },
-        {
           "type": "CHOICE",
           "members": [
             {
               "type": "SEQ",
               "members": [
                 {
-                  "type": "CHOICE",
-                  "members": [
-                    {
-                      "type": "SYMBOL",
-                      "name": "name_and_or_short_name"
-                    },
-                    {
-                      "type": "BLANK"
-                    }
-                  ]
+                  "type": "SYMBOL",
+                  "name": "identification"
                 },
                 {
                   "type": "SYMBOL",
@@ -1466,43 +1814,56 @@
           ]
         },
         {
-          "type": "SYMBOL",
-          "name": "qualified_name_sequence"
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "qualified_name"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": ","
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "qualified_name"
+                  }
+                ]
+              }
+            }
+          ]
         },
         {
           "type": "SYMBOL",
           "name": "to_keyword"
         },
         {
-          "type": "SYMBOL",
-          "name": "qualified_name_sequence"
-        },
-        {
-          "type": "CHOICE",
+          "type": "SEQ",
           "members": [
             {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "{"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "SYMBOL",
-                    "name": "statement"
-                  }
-                },
-                {
-                  "type": "STRING",
-                  "value": "}"
-                }
-              ]
+              "type": "SYMBOL",
+              "name": "qualified_name"
             },
             {
-              "type": "STRING",
-              "value": ";"
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": ","
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "qualified_name"
+                  }
+                ]
+              }
             }
           ]
         }
