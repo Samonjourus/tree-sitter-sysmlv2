@@ -41,6 +41,9 @@ module.exports = {
 
   string_character: (_) => /[^\p{C}\\"]/u,
 
+  // shortcut for "typed by"
+  typed_by: (_) => choice(seq($.typed_keyword, $.by_keyword), token(":")),
+
   // other (temp name)
   // NOTE: probably should split this into components
   locale_code: ($) => seq('"', /[A-Za-z0-9_@]*/, '"'),
