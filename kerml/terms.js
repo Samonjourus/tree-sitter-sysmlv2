@@ -25,9 +25,21 @@ module.exports = {
   escape_sequence: (_) =>
     choice("\\\\", "\\n", "\\t", "\\'", '\\"', "\\b", "\\f"),
 
+  // Literals
+  decimal_value: seq($.decimal_digit, repeat($.decimal_digit)),
+  exponential_value: seq(
+    $.decimal_value,
+    optional(choice("+", "-")),
+    $.decimal_value,
+  ),
 
-  name_and_or_short_name: ($) =>
-    choice(seq($.short_name, $.name), $.name, $.short_name),
+  string_value: seq(
+    '"',
+    repeat(choice($.string_character, $.escape_sequence)),
+    '"',
+  ),
+
+  string_character: (_) => /[^\p{C}\\"]/u,
 
   // other (temp name)
   // NOTE: probably should split this into components
