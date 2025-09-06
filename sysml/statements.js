@@ -17,7 +17,7 @@ module.exports = {
 
   documentation: ($) =>
     seq(
-      seq($.doc_keyword, $.identification),
+      seq($.doc_keyword, optional($.identification)),
       optional(seq($.locale_keyword, $.string_value)),
       $.regular_comment,
     ),

@@ -16,7 +16,7 @@ module.exports = {
   annotating_element: ($) =>
     choice(
       $.comment,
-      //"", //$.documentation,
+      $.documentation,
       //"", //$.textual_representation,
       //"", //$.metadata_feature,
     ),
@@ -32,10 +32,9 @@ module.exports = {
 
   definition_element: ($) =>
     choice(
+      $.annotating_element,
       $.dependency,
       // library_package,
-      // AnnotatingElement,
-      // Dependency,
       // AttributeDefinition,
       // EnumerationDefinition,
       // OccurrenceDefinition,

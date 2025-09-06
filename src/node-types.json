@@ -10,6 +10,10 @@
         {
           "type": "comment",
           "named": true
+        },
+        {
+          "type": "documentation",
+          "named": true
         }
       ]
     }
@@ -77,6 +81,10 @@
       "required": true,
       "types": [
         {
+          "type": "annotating_element",
+          "named": true
+        },
+        {
           "type": "dependency",
           "named": true
         }
@@ -132,6 +140,37 @@
         },
         {
           "type": "to_keyword",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "documentation",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "doc_keyword",
+          "named": true
+        },
+        {
+          "type": "identification",
+          "named": true
+        },
+        {
+          "type": "locale_keyword",
+          "named": true
+        },
+        {
+          "type": "regular_comment",
+          "named": true
+        },
+        {
+          "type": "string_value",
           "named": true
         }
       ]
@@ -388,6 +427,10 @@
   },
   {
     "type": "dependency_keyword",
+    "named": true
+  },
+  {
+    "type": "doc_keyword",
     "named": true
   },
   {
