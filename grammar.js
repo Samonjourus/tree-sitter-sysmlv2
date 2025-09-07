@@ -26,6 +26,35 @@ let merged = {
 module.exports = grammar({
   name: "tree_sitter_sysmlv2",
 
+  fields: {
+    body: {},
+    chainingFeature: {},
+    differencingType: {},
+    disjoiningType: {},
+    general: {},
+    intersectingType: {},
+    isAbstract: {},
+    isSufficient: {},
+    language: {},
+    memberElement: {},
+    operator: {},
+    ownedFeatureMember: {},
+    ownedRelatedElement: {},
+    ownedRelationship: {},
+    ownedMemberElement: {},
+    ownedMemberFeature: {},
+    ownedMemberParameter: {},
+    redefinedFeature: {},
+    specific: {},
+    superclassifier: {},
+    type: {},
+    typedFeature: {},
+    typeDisjoined: {},
+    unioningType: {},
+    visibility: {},
+    value: {},
+  },
+
   rules: merged,
 
   extras: ($) => [
