@@ -26,7 +26,7 @@ module.exports = {
 
   alias_member: ($) =>
     seq(
-      $.member_prefix,
+      optional($.member_prefix),
       $.alias_keyword,
       optional($.identification),
       $.for_keyword,
