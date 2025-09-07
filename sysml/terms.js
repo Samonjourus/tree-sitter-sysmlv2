@@ -67,8 +67,9 @@ module.exports = {
   definition_element: ($) =>
     choice(
       $.annotating_element,
+      $.package,
       $.dependency,
-      // library_package,
+      $.library_package,
       // AttributeDefinition,
       // EnumerationDefinition,
       // OccurrenceDefinition,
