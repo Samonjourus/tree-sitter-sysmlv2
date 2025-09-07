@@ -56,13 +56,9 @@ module.exports = {
     seq($.member_prefix, field("ownedRelatedElement", $.feature_element)),
 
   qualified_name: ($) =>
-    prec(
-      1,
-      seq(
-        optional(seq(token("$"), token("::"))),
-        repeat(seq($.name, token("::"))),
-        $.name,
-      ),
+    prec.right(
+      2,
+      seq(optional(seq("$", "::")), $.name, repeat(seq("::", $.name))),
     ),
 
   // other (temp name)
