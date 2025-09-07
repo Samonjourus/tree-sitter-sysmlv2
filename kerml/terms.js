@@ -59,7 +59,7 @@ module.exports = {
     prec(
       1,
       seq(
-        optional(choice(token("$"), token("::"))),
+        optional(seq(token("$"), token("::"))),
         repeat(seq($.name, token("::"))),
         $.name,
       ),
