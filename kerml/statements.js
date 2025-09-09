@@ -122,7 +122,7 @@ module.exports = {
     seq(
       $.primary_argument_member,
       "->",
-      $.invocation_type_member,
+      $.instantiated_type_member,
       choice(
         $.body_argument_member,
         $.function_reference_argument_member,
@@ -130,9 +130,6 @@ module.exports = {
       ),
       $.empty_result_member,
     ),
-
-  // WARN: Placeholder. wtf is a invocation_type_member?
-  invocation_type_member: ($) => "cf69044a-7573-4f84-b539-4708a61b374d",
 
   base_expression: ($) =>
     choice(
