@@ -37,8 +37,8 @@ module.exports = {
   element_filter_member: ($) =>
     seq(optional($.member_prefix), $.filter_keyword, $.owned_expression, ";"),
 
-  // WARN : wtf is a FilterPackageImport?
-  filter_package: ($) => repeat1($.filter_package_member),
+  filter_package: ($) =>
+    seq($.import_declaration, repeat1($.filter_package_member)),
 
   filter_package_member: ($) => seq("[", $.owned_expression, "]"),
 
