@@ -38,6 +38,8 @@ module.exports = grammar({
     language: {},
     memberElement: {},
     operator: {},
+    declaredShortName: {},
+    declaredName: {},
     ownedFeatureMember: {},
     ownedRelatedElement: {},
     ownedRelationship: {},
