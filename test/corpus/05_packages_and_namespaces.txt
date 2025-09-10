@@ -1,0 +1,372 @@
+=============
+empty package
+=============
+
+package empty;
+
+---
+
+(root_namespace
+  (package_body_element
+    (package_member
+      (definition_element
+        (package
+          (package_declaration
+            (package_keyword)
+            (identification
+              (name
+                (basic_name)
+                )
+              )
+            )
+          (package_body)
+        )
+      )
+    )
+  )
+)
+
+=============
+nested package
+=============
+
+package parent {
+  package child;
+}
+
+---
+
+(root_namespace
+  (package_body_element
+    (package_member
+      (definition_element
+        (package
+          (package_declaration
+            (package_keyword)
+            (identification
+              (name
+                (basic_name)
+                )
+              )
+            )
+          (package_body
+            (package_body_element
+              (package_member
+                (definition_element
+                  (package
+                    (package_declaration
+                      (package_keyword)
+                      (identification
+                        (name
+                          (basic_name)
+                          )
+                        )
+                      )
+                    (package_body)
+                  )
+                )
+              )
+            )
+          )
+        )
+      )
+    )
+  )
+)
+
+=========================
+package with alias member
+=========================
+
+package Package1 {
+  alias Package2Alias
+    for Package2;
+  }
+package Package2;
+
+---
+
+(root_namespace
+  (package_body_element
+    (package_member
+      (definition_element
+        (package
+          (package_declaration
+            (package_keyword)
+            (identification
+              (name
+                (basic_name)
+              )
+            )
+          )
+          (package_body
+            (package_body_element
+              (alias_member
+                (alias_keyword)
+                (identification
+                  (name
+                    (basic_name)
+                  )
+                )
+                (for_keyword)
+                (qualified_name
+                  (name
+                    (basic_name)
+                  )
+                )
+                (relationship_body)
+              )
+            )
+          )
+        )
+      )
+    )
+  )
+  (package_body_element
+    (package_member
+      (definition_element
+        (package
+          (package_declaration
+            (package_keyword)
+            (identification
+              (name
+                (basic_name)
+              )
+            )
+          )
+          (package_body)
+        )
+      )
+    )
+  )
+)
+
+================
+namespace import
+================
+
+public import Packages::*;
+
+---
+
+(root_namespace
+  (package_body_element
+    (import
+      (visibility_indicator)
+      (import_keyword)
+      (import_declaration
+        (qualified_path
+          (name
+            (basic_name)
+          )
+          (scope)
+          (wildcard)
+        )
+      )
+      (relationship_body)
+    )
+  )
+)
+
+=========================
+recursive namespace import
+=========================
+
+private import Packages::*::**;
+
+---
+
+(root_namespace
+  (package_body_element
+    (import
+      (visibility_indicator)
+      (import_keyword)
+      (import_declaration
+        (qualified_path
+          (name
+            (basic_name)
+          )
+          (scope)
+          (wildcard)
+          (scope)
+          (recurse)
+        )
+      )
+      (relationship_body)
+    )
+  )
+)
+
+=====================
+deep namespace import
+=====================
+
+public import Packages::child::*;
+
+---
+
+(root_namespace
+  (package_body_element
+    (import
+      (visibility_indicator)
+      (import_keyword)
+      (import_declaration
+        (qualified_path
+          (name
+            (basic_name)
+          )
+          (scope)
+          (name
+            (basic_name)
+          )
+          (scope)
+          (wildcard)
+        )
+      )
+      (relationship_body)
+    )
+  )
+)
+
+==============================
+deep recusive namespace import
+==============================
+
+private import Packages::child::*::**;
+
+---
+
+(root_namespace
+  (package_body_element
+    (import
+      (visibility_indicator)
+      (import_keyword)
+      (import_declaration
+        (qualified_path
+          (name
+            (basic_name)
+          )
+          (scope)
+          (name
+            (basic_name)
+          )
+          (scope)
+          (wildcard)
+          (scope)
+          (recurse)
+        )
+      )
+      (relationship_body)
+    )
+  )
+)
+
+=================
+membership import
+=================
+
+public import Packages;
+
+---
+
+(root_namespace
+  (package_body_element
+    (import
+      (visibility_indicator)
+      (import_keyword)
+      (import_declaration
+        (qualified_path
+          (name
+            (basic_name)
+          )
+        )
+      )
+      (relationship_body)
+    )
+  )
+)
+
+==========================
+recursive membership import
+==========================
+
+private import Packages;
+
+---
+
+(root_namespace
+  (package_body_element
+    (import
+      (visibility_indicator)
+      (import_keyword)
+      (import_declaration
+        (qualified_path
+          (name
+            (basic_name)
+          )
+        )
+      )
+      (relationship_body)
+    )
+  )
+)
+
+======================
+deep membership import
+======================
+
+public import Packages::child;
+
+---
+
+(root_namespace
+  (package_body_element
+    (import
+      (visibility_indicator)
+      (import_keyword)
+      (import_declaration
+        (qualified_path
+          (name
+            (basic_name)
+          )
+          (scope)
+          (name
+            (basic_name)
+          )
+        )
+      )
+      (relationship_body)
+    )
+  )
+)
+
+===============================
+deep recusive membership import
+===============================
+
+private import Packages::child::**;
+
+---
+
+(root_namespace
+  (package_body_element
+    (import
+      (visibility_indicator)
+      (import_keyword)
+      (import_declaration
+        (qualified_path
+          (name
+            (basic_name)
+          )
+          (scope)
+          (name
+            (basic_name)
+          )
+          (scope)
+          (recurse)
+        )
+      )
+      (relationship_body)
+    )
+  )
+)

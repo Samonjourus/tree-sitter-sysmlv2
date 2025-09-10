@@ -151,8 +151,10 @@ dependency layerAAA::layer::layerA to layerC;
             (qualified_name
               (name
                 (basic_name))
+              (scope)
               (name
                 (basic_name))
+              (scope)
               (name
                 (basic_name)))
             (to_keyword)
@@ -179,8 +181,10 @@ dependency layerAAA::'layer 4 fun'::layerA to layerC;
             (qualified_name
               (name
                 (basic_name))
+              (scope)
               (name
                 (unrestricted_name))
+              (scope)
               (name
                 (basic_name)))
             (to_keyword)
