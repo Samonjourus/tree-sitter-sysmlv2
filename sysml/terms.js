@@ -53,8 +53,9 @@ module.exports = {
 
   import_declaration: ($) => choice($.membership_import, $.namespace_import),
 
-  membership_import: ($) =>
-    seq($.qualified_name, optional(seq("::", field("isRecursive", "**")))),
+  recurse: (_) => token("**"),
+  wildcard: (_) => token.immediate("*"),
+  scope: (_) => token("::"),
 
   // NOTE: made mandatory to comply with treesitter. References must mark this
   // as optional
