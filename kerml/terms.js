@@ -58,7 +58,23 @@ module.exports = {
   qualified_name: ($) =>
     prec.right(
       2,
-      seq(optional(seq("$", "::")), $.name, repeat(seq("::", $.name))),
+      seq(
+        optional(seq(token("$"), $.scope)),
+        $.name,
+        repeat(seq($.scope, $.name)),
+      ),
+    ),
+
+  qualified_path: ($) =>
+    prec.right(
+      2,
+      seq(
+        optional(seq(token("$"), $.scope)),
+        $.name,
+        repeat(seq($.scope, $.name)),
+        optional(seq($.scope, field("isNamespace", $.wildcard))),
+        optional(seq($.scope, field("isRecursive", $.recurse))),
+      ),
     ),
 
   // other (temp name)
