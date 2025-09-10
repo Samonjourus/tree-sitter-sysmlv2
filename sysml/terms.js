@@ -49,13 +49,15 @@ module.exports = {
   filter_package: ($) =>
     seq($.import_declaration, repeat1($.filter_package_member)),
 
-  filter_package_member: ($) => seq("[", $.owned_expression, "]"),
+  filter_package_member: ($) => seq(token("["), $.owned_expression, token("]")),
 
   import_declaration: ($) => choice($.membership_import, $.namespace_import),
 
   recurse: (_) => token("**"),
   wildcard: (_) => token.immediate("*"),
   scope: (_) => token("::"),
+  square_close: (_) => token("]"),
+  square_open: (_) => token("["),
 
   // NOTE: made mandatory to comply with treesitter. References must mark this
   // as optional
