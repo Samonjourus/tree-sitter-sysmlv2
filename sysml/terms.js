@@ -51,7 +51,9 @@ module.exports = {
 
   filter_package_member: ($) => seq(token("["), $.owned_expression, token("]")),
 
-  import_declaration: ($) => choice($.membership_import, $.namespace_import),
+  // definitons of namespace import + membership import needed to be inlined...
+  // because im simply not smart enough :)
+  import_declaration: ($) => $.qualified_path,
 
   recurse: (_) => token("**"),
   wildcard: (_) => token.immediate("*"),
@@ -62,12 +64,6 @@ module.exports = {
   // NOTE: made mandatory to comply with treesitter. References must mark this
   // as optional
   member_prefix: ($) => field("visibility", $.visibility_indicator),
-
-  namespace_import: ($) =>
-    choice(
-      seq($.qualified_name, "::", "*", optional(choice("::", "**"))),
-      $.filter_package,
-    ),
 
   package_body_element: ($) =>
     choice($.package_member, $.element_filter_member, $.alias_member, $.import),
