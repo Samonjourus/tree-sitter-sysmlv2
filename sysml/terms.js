@@ -1,7 +1,16 @@
 module.exports = {
   // section 2: root syntax
   identification: ($) =>
-    choice(seq("<", $.name, ">"), $.name, seq("<", $.name, ">", $.name)),
+    choice(
+      seq("<", field("declaredShortName", $.name), ">"),
+      field("declaredName", $.name),
+      seq(
+        "<",
+        field("declaredShortName", $.name),
+        ">",
+        field("declaredName", $.name),
+      ),
+    ),
 
   relationship_body: ($) =>
     choice(token(";"), seq("{", repeat($.owned_annotation), "}")),
