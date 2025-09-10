@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.13)
 
 project(tree-sitter-tree-sitter-sysmlv2
-        VERSION "0.2.1"
+        VERSION "0.3.0"
         DESCRIPTION "TreeSitter parser for Systems MOdelling Language Version 2"
         HOMEPAGE_URL "https://github.com/tree-sitter/tree-sitter-tree_sitter_sysmlv2"
         LANGUAGES C)
