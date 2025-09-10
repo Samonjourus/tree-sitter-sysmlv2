@@ -647,6 +647,14 @@
         {
           "type": "dependency",
           "named": true
+        },
+        {
+          "type": "library_package",
+          "named": true
+        },
+        {
+          "type": "package",
+          "named": true
         }
       ]
     }
@@ -1107,36 +1115,6 @@
     }
   },
   {
-    "type": "filter_package",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "filter_package_member",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "filter_package_member",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "owned_expression",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "function_body_part",
     "named": true,
     "fields": {
@@ -1191,7 +1169,7 @@
           "named": true
         },
         {
-          "type": "invocation_type_member",
+          "type": "instantiated_type_member",
           "named": true
         },
         {
@@ -1320,16 +1298,27 @@
   {
     "type": "identification",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "name",
-          "named": true
-        }
-      ]
+    "fields": {
+      "declaredName": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      },
+      "declaredShortName": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "name",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -1372,11 +1361,7 @@
       "required": true,
       "types": [
         {
-          "type": "membership_import",
-          "named": true
-        },
-        {
-          "type": "namespace_import",
+          "type": "qualified_path",
           "named": true
         }
       ]
@@ -1518,6 +1503,37 @@
     }
   },
   {
+    "type": "library_package",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "library_keyword",
+          "named": true
+        },
+        {
+          "type": "package_body",
+          "named": true
+        },
+        {
+          "type": "package_declaration",
+          "named": true
+        },
+        {
+          "type": "prefix_metadata_member",
+          "named": true
+        },
+        {
+          "type": "standard_keyword",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "literal_boolean",
     "named": true,
     "fields": {
@@ -1650,21 +1666,6 @@
           }
         ]
       }
-    }
-  },
-  {
-    "type": "membership_import",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "qualified_name",
-          "named": true
-        }
-      ]
     }
   },
   {
@@ -1965,25 +1966,6 @@
       "types": [
         {
           "type": "member_prefix",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "namespace_import",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "filter_package",
-          "named": true
-        },
-        {
-          "type": "qualified_name",
           "named": true
         }
       ]
@@ -2680,6 +2662,50 @@
         {
           "type": "name",
           "named": true
+        },
+        {
+          "type": "scope",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "qualified_path",
+    "named": true,
+    "fields": {
+      "isNamespace": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "wildcard",
+            "named": true
+          }
+        ]
+      },
+      "isRecursive": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "recurse",
+            "named": true
+          }
+        ]
+      }
+    },
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "name",
+          "named": true
+        },
+        {
+          "type": "scope",
+          "named": true
         }
       ]
     }
@@ -2702,6 +2728,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "recurse",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "reference_typing",
@@ -3382,10 +3413,6 @@
     "named": false
   },
   {
-    "type": "::",
-    "named": false
-  },
-  {
     "type": ";",
     "named": false
   },
@@ -3622,10 +3649,6 @@
     "named": true
   },
   {
-    "type": "invocation_type_member",
-    "named": true
-  },
-  {
     "type": "istype_keyword",
     "named": true
   },
@@ -3635,6 +3658,10 @@
   },
   {
     "type": "libraryPackage",
+    "named": true
+  },
+  {
+    "type": "library_keyword",
     "named": true
   },
   {
@@ -3714,11 +3741,19 @@
     "named": true
   },
   {
+    "type": "scope",
+    "named": true
+  },
+  {
     "type": "specialization",
     "named": true
   },
   {
     "type": "specialization_keyword",
+    "named": true
+  },
+  {
+    "type": "standard_keyword",
     "named": true
   },
   {
@@ -3771,6 +3806,10 @@
   },
   {
     "type": "usage_element",
+    "named": true
+  },
+  {
+    "type": "wildcard",
     "named": true
   },
   {
