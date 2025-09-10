@@ -1,7 +1,16 @@
 module.exports = {
   // section 2: root syntax
   identification: ($) =>
-    choice(seq("<", $.name, ">"), $.name, seq("<", $.name, ">", $.name)),
+    choice(
+      seq("<", field("declaredShortName", $.name), ">"),
+      field("declaredName", $.name),
+      seq(
+        "<",
+        field("declaredShortName", $.name),
+        ">",
+        field("declaredName", $.name),
+      ),
+    ),
 
   relationship_body: ($) =>
     choice(token(";"), seq("{", repeat($.owned_annotation), "}")),
@@ -22,19 +31,54 @@ module.exports = {
     ),
 
   // section 5: namespaces
+  // 5.1: packages
+
+  alias_member: ($) =>
+    seq(
+      optional($.member_prefix),
+      $.alias_keyword,
+      optional($.identification),
+      $.for_keyword,
+      $.qualified_name,
+      $.relationship_body,
+    ),
+
+  element_filter_member: ($) =>
+    seq(optional($.member_prefix), $.filter_keyword, $.owned_expression, ";"),
+
+  filter_package: ($) =>
+    seq($.import_declaration, repeat1($.filter_package_member)),
+
+  filter_package_member: ($) => seq(token("["), $.owned_expression, token("]")),
+
+  // definitons of namespace import + membership import needed to be inlined...
+  // because im simply not smart enough :)
+  import_declaration: ($) => $.qualified_path,
+
+  recurse: (_) => token("**"),
+  wildcard: (_) => token.immediate("*"),
+  scope: (_) => token("::"),
+  square_close: (_) => token("]"),
+  square_open: (_) => token("["),
+
+  // NOTE: made mandatory to comply with treesitter. References must mark this
+  // as optional
+  member_prefix: ($) => field("visibility", $.visibility_indicator),
+
   package_body_element: ($) =>
     choice($.package_member, $.element_filter_member, $.alias_member, $.import),
 
   package_member: ($) => choice($.definition_element, $.usage_element),
-  element_filter_member: (_) => "06a5998e-4600-4331-985c-11c8cf20a1d4", // TODO: replace
-  alias_member: (_) => "18aa5fe4-775b-4b29-b49e-32bd73a5a38f", // TODO: replace
-  import: (_) => "e273276f-9194-4692-b8d5-199968ea8f4f", // TODO replace
 
+  visibility_indicator: (_) => choice("public", "private", "protected"),
+
+  // 5.2: package elements
   definition_element: ($) =>
     choice(
       $.annotating_element,
+      $.package,
       $.dependency,
-      // library_package,
+      $.library_package,
       // AttributeDefinition,
       // EnumerationDefinition,
       // OccurrenceDefinition,
@@ -70,10 +114,18 @@ module.exports = {
   owned_feature_typing: ($) =>
     prec(1, choice($.qualified_name, $.owned_feature_chain)),
 
-  owned_feature_chain: ($) =>
-    seq($.owned_feature_chaining, repeat1(seq(".", $.owned_feature_chaining))),
+  owned_feature_chain: ($) => $.feature_chain,
 
-  owned_feature_chain: ($) => seq($.qualified_name),
+  feature_chain: ($) =>
+    prec.left(
+      seq(
+        field("ownedRelationship", $.owned_feature_chaining),
+        repeat1(seq(".", field("ownedRelationship", $.owned_feature_chaining))),
+      ),
+    ),
+
+  owned_feature_chaining: ($) =>
+    prec(1, field("chainingFeature", $.qualified_name)),
 
   // 6.4 body elements
   // non_occurrence_usage_element: $ => choice(
@@ -89,6 +141,8 @@ module.exports = {
   // section 27: metadata textual notation
   // NOTE: Incomplete
   prefix_metadata_annotation: ($) => seq("#", $.prefix_metadata_usage),
+
+  prefix_metadata_member: ($) => prec(1, seq("#", $.prefix_metadata_usage)),
 
   prefix_metadata_usage: ($) => $.owned_feature_typing,
 };

@@ -1,4 +1,31 @@
 module.exports = {
+  // section 8.2.2.5: Namespaces and Packages
+  package: ($) => seq($.package_declaration, $.package_body),
+
+  library_package: ($) =>
+    seq(
+      optional($.standard_keyword),
+      $.library_keyword,
+      repeat($.prefix_metadata_member),
+      $.package_declaration,
+      $.package_body,
+    ),
+
+  package_declaration: ($) =>
+    seq($.package_keyword, optional($.identification)),
+
+  package_body: ($) =>
+    choice(";", seq("{", repeat($.package_body_element), "}")),
+
+  import: ($) =>
+    seq(
+      $.visibility_indicator,
+      $.import_keyword,
+      optional($.all_keyword),
+      $.import_declaration,
+      $.relationship_body,
+    ),
+
   // section 8.2.2.4: Annotations
   comment: ($) =>
     seq(

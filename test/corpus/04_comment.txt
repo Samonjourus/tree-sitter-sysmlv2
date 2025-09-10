@@ -1,0 +1,38 @@
+=================
+qualified comment
+=================
+
+comment opinion about someone::special /* great */
+
+---
+
+(root_namespace
+  (package_body_element
+    (package_member
+      (definition_element
+        (annotating_element
+          (comment
+            (comment_keyword)
+            (identification
+              (name
+                (basic_name)
+              )
+            )
+            (about_keyword)
+            (annotation
+              (qualified_name
+                (name
+                  (basic_name))
+                (scope)
+                (name
+                  (basic_name)
+                )
+              )
+            )
+            (regular_comment)
+          )
+        )
+      )
+    )
+  )
+)

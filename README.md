@@ -8,7 +8,7 @@ According to the [SysMLv2 specification](https://www.omg.org/spec/SysML/2.0/Beta
 
 - [x] Dependencies
 - [x] Annotations
-- [ ] Namespaces and Packages
+- [x] Namespaces and Packages
 - [ ] Definitions and Usage
 - [ ] Attributes
 - [ ] Enumerations
