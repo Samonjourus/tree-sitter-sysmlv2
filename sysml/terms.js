@@ -257,6 +257,85 @@ module.exports = {
       $.usage_body,
     ),
 
+  // section 8.2.2.6.4: Body elements
+  non_occurrence_usage_element: ($) =>
+    choice(
+      $.DefaultReferenceUsage,
+      $.ReferenceUsage,
+      $.AttributeUsage,
+      $.EnumerationUsage,
+      $.BindingConnectorAsUsage,
+      $.SuccessionAsUsage,
+      $.ExtendedUsage,
+    ),
+
+  occurrence_usage_element: ($) =>
+    choice($.structure_usage_element, $.behavior_usage_element),
+
+  structure_usage_element: ($) =>
+    choice(
+      $.OccurrenceUsage,
+      $.IndividualUsage,
+      $.PortionUsage,
+      $.EventOccurrenceUsage,
+      $.ItemUsage,
+      $.PartUsage,
+      $.ViewUsage,
+      $.RenderingUsage,
+      $.PortUsage,
+      $.ConnectionUsage,
+      $.InterfaceUsage,
+      $.AllocationUsage,
+      $.Message,
+      $.FlowUsage,
+      $.SuccessionFlowUsage,
+    ),
+
+  behavior_usage_element: ($) =>
+    choice(
+      $.ActionUsage,
+      $.CalculationUsage,
+      $.StateUsage,
+      $.ConstraintUsage,
+      $.RequirementUsage,
+      $.ConcernUsage,
+      $.CaseUsage,
+      $.AnalysisCaseUsage,
+      $.VerificationCaseUsage,
+      $.UseCaseUsage,
+      $.ViewpointUsage,
+      $.PerformActionUsage,
+      $.ExhibitStateUsage,
+      $.IncludeUseCaseUsage,
+      $.AssertConstraintUsage,
+      $.SatisfyRequirementUsage,
+    ),
+
+  variant_usage_element: ($) =>
+    choice(
+      $.VariantReference,
+      $.ReferenceUsage,
+      $.AttributeUsage,
+      $.BindingConnectorAsUsage,
+      $.SuccessionAsUsage,
+      $.OccurrenceUsage,
+      $.IndividualUsage,
+      $.PortionUsage,
+      $.EventOccurrenceUsage,
+      $.ItemUsage,
+      $.PartUsage,
+      $.ViewUsage,
+      $.RenderingUsage,
+      $.PortUsage,
+      $.ConnectionUsage,
+      $.InterfaceUsage,
+      $.AllocationUsage,
+      $.Message,
+      $.FlowUsage,
+      $.SuccessionFlowUsage,
+      $.BehaviorUsageElement,
+    ),
+
   owned_feature_typing: ($) =>
     prec(1, choice($.qualified_name, $.owned_feature_chain)),
 
