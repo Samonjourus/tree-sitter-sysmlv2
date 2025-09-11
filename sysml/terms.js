@@ -244,6 +244,19 @@ module.exports = {
       $.owned_expression,
     ),
 
+  // section 8.2.2.6.3: Reference usages
+  default_reference_usage: ($) => seq($.ref_prefix, $.usage),
+
+  reference_usage: ($) =>
+    seq(choice($.end_usage_prefix, $.ref_prefix), $.ref_keyword, $.usage),
+
+  variant_reference: ($) =>
+    seq(
+      field("ownedRelationship", $.owned_reference_subsetting),
+      repeat($.feature_specialization),
+      $.usage_body,
+    ),
+
   owned_feature_typing: ($) =>
     prec(1, choice($.qualified_name, $.owned_feature_chain)),
 
