@@ -1,5 +1,5 @@
 module.exports = {
-  // section 2: root syntax
+  // section 8.2.2.2: Elements and relationships textual notation
   identification: ($) =>
     choice(
       seq("<", field("declaredShortName", $.name), ">"),
@@ -15,7 +15,7 @@ module.exports = {
   relationship_body: ($) =>
     choice(token(";"), seq("{", repeat($.owned_annotation), "}")),
 
-  //section 4: annotations
+  //section 8.2.2.4: Annotations textual notation
   annotation: ($) => $.qualified_name,
 
   owned_annotation: ($) => $.annotating_element,
@@ -30,7 +30,7 @@ module.exports = {
       //"", //$.metadata_feature,
     ),
 
-  // section 5: namespaces
+  // section 5: Namespaces and packages textual notation
   // 5.1: packages
 
   alias_member: ($) =>
@@ -109,8 +109,8 @@ module.exports = {
   usage_element: ($) => token("1f2d6440-95a3-4bb9-b6a9-79b334e73027"), // TODO
   // choice($.non_occurrence_usage_element, $.occurrence_usage_element),
 
-  // section 6: definition and usage
-  // NOTE: Incomplete
+  // section 8.2.2.6: Definition and usage textual notation
+  // section 8.2.2.6.1: Definitions
   owned_feature_typing: ($) =>
     prec(1, choice($.qualified_name, $.owned_feature_chain)),
 
