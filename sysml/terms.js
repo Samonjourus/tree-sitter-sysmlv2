@@ -347,10 +347,114 @@ module.exports = {
         field("ownedRelationship", $.owned_feature_chaining),
         repeat1(seq(".", field("ownedRelationship", $.owned_feature_chaining))),
       ),
+      $.multiplicity_part,
+      repeat($.feature_specialization),
     ),
 
-  owned_feature_chaining: ($) =>
-    prec(1, field("chainingFeature", $.qualified_name)),
+  feature_specialization: ($) =>
+    choice($.typings, $.subsettings, $.references, $.crosses, $.redefinitions),
+
+  typings: ($) =>
+    seq(
+      $.typed_by,
+      repeat(token(","), field("ownedRelationship", $.feature_typing)),
+    ),
+
+  typed_by: ($) =>
+    seq($.defined_by, field("ownedRelationship", $.feature_typing)),
+
+  feature_typing: ($) =>
+    choice($.owned_feature_typing, $.conjugated_port_typing),
+
+  owned_feature_typing: ($) =>
+    choice(
+      field("type", $.qualified_name),
+      field("type", $.owned_feature_chain),
+    ),
+
+  subsettings: ($) =>
+    seq(
+      $.subsets,
+      repeat(token(","), field("ownedRelationship", $.feature_typing)),
+    ),
+
+  subsets: ($) =>
+    seq($.subsets_keyword, field("ownedRelationship", $.owned_subsetting)),
+
+  owned_subsetting: ($) =>
+    choice(
+      field("type", $.qualified_name),
+      field("type", $.owned_feature_chain),
+    ),
+
+  references: ($) =>
+    seq(
+      $.references_keyword,
+      field("ownedRelationship", $.owned_reference_subsetting),
+    ),
+
+  owned_reference_subsetting: ($) =>
+    choice(
+      field("referencedFeature", $.qualified_name),
+      field("referencedFeature", $.owned_feature_chain),
+    ),
+
+  crosses: ($) =>
+    seq(
+      $.crosses_keyword,
+      field("ownedRelationship", $.owned_cross_subsetting),
+    ),
+
+  owned_cross_subsetting: ($) =>
+    choice(
+      field("crossedFeature", $.qualified_name),
+      field("crossedFeature", $.owned_feature_chain),
+    ),
+
+  redefinitions: ($) =>
+    seq(
+      $.redefines,
+      repeat(seq(",", field("ownedRelationship", $.owned_redefinition))),
+    ),
+
+  redefines: ($) =>
+    seq($.redefines_keyword, field("ownedRelationship", $.owned_redefinition)),
+
+  owned_redefinition: ($) =>
+    choice(
+      field("redefinedFeature", $.qualified_name),
+      field("redefinedFeature", $.owned_feature_chain),
+    ),
+
+  owned_feature_chain: ($) =>
+    seq(
+      field("ownedRelationship", $.owned_feature_chaining),
+      repeat1(".", field("ownedRelationship", $.owned_feature_chaining)),
+    ),
+
+  owned_feature_chaining: field("chainingFeature", $.qualified_name),
+
+  // section 8.2.2.7: Attributes textual notation
+  // section 8.2.2.8: Enumerations textual notation
+  // section 8.2.2.9: Occurrences textual notation
+  // section 8.2.2.10: Items textual notation
+  // section 8.2.2.11: Parts textual notation
+  // section 8.2.2.12: Ports textual notation
+  // section 8.2.2.13: Connections textual notation
+  // section 8.2.2.14: Interfaces textual notation
+  // section 8.2.2.15: Allocations textual notation
+  // section 8.2.2.16: Flows textual notation
+  // section 8.2.2.17: Actions textual notation
+  // section 8.2.2.18: States textual notation
+  // section 8.2.2.19: Calculations textual notation
+  // section 8.2.2.20: Constraints textual notation
+  // section 8.2.2.21: Requirements textual notation
+  // section 8.2.2.22: Cases textual notation
+  // section 8.2.2.23: Analysis textual notation
+  // section 8.2.2.24: Verification textual notation
+  // section 8.2.2.25: Use Cases textual notation
+  // section 8.2.2.26: Views and Viewpoints textual notation
+  // section 8.2.2.27: Metadata textual notation
 
   // 6.4 body elements
   // non_occurrence_usage_element: $ => choice(

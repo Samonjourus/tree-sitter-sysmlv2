@@ -625,4 +625,18 @@ module.exports = {
 
   prefix_metadata_member: ($) =>
     seq("#", field("ownedRelatedElement", $.prefix_metadata_feature)),
+
+  // 8.2.4.3.5 feature chaining
+  owned_feature_chain: ($) => $.feature_chain,
+
+  feature_chain: ($) =>
+    prec.left(
+      seq(
+        field("ownedRelationship", $.owned_feature_chaining),
+        repeat1(seq(".", field("ownedRelationship", $.owned_feature_chaining))),
+      ),
+    ),
+
+  owned_feature_chaining: ($) =>
+    prec(1, field("chainingFeature", $.qualified_name)),
 };
