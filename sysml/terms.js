@@ -181,6 +181,68 @@ module.exports = {
     ),
 
   // section 8.2.2.6.2: Usages
+  feature_direction: (_) =>
+    choice($.in_keyword, $.out_keyword, $.inout_keyword),
+
+  ref_prefix: ($) =>
+    seq(
+      optional(field("direction", $.feature_direction)),
+      optional(field("isDerived", $.derived_keyword)),
+      optional(
+        choice(
+          field("isAbstract", $.abstract_keyword),
+          field("isVariation", $.variation_keyword),
+        ),
+      ),
+      field("isConstant", $.constant_keyword),
+    ),
+
+  basic_usage_prefix: ($) => seq($.ref_prefix, optional($.ref_prefix)),
+
+  end_usage_prefix: ($) =>
+    seq(
+      field("isEnd", $.end_keyword),
+      optional(field("ownedRelationship", $.owned_cross_feature_member)),
+    ),
+
+  owned_cross_feature_member: ($) =>
+    field("ownedRelatedElement", $.owned_cross_feature),
+
+  owned_cross_feature: ($) => seq($.basic_usage_prefix, $.usage_declararion),
+
+  usage_extension_keyword: ($) =>
+    field("ownedRelationship", $.prefix_metadata_member),
+
+  unextended_usage_prefix: choice($.basic_usage_prefix, $.end_usage_prefix),
+
+  usage_prefix: seq(
+    $.unextended_usage_prefix,
+    repeat($.usage_extension_keyword),
+  ),
+
+  usage: ($) => seq($.usage_declararion, $.usage_completion),
+
+  usage_declararion: ($) =>
+    seq($.identification, optional($.feature_specialization_part)),
+
+  usage_completion: ($) => seq(optional($.value_path), $.usage_body),
+
+  usage_body: ($) => $.definition_body,
+
+  value_part: ($) => field("ownedRelationship", $.feature_value),
+
+  feature_value: ($) =>
+    seq(
+      choice(
+        token("="),
+        field("isInitial", token(":=")),
+        seq(
+          field("isDefault", $.default_keyword),
+          choice(token("="), field("isInitial", token(":="))),
+        ),
+      ),
+      $.owned_expression,
+    ),
 
   owned_feature_typing: ($) =>
     prec(1, choice($.qualified_name, $.owned_feature_chain)),
