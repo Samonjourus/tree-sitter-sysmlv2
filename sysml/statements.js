@@ -72,4 +72,7 @@ module.exports = {
       $.to_keyword,
       seq($.qualified_name, repeat(seq(",", $.qualified_name))),
     ),
+
+  // section 8.2.2.6: Definitions
+  definition: ($) => choice($.definition_declaration, $.definition_body),
 };

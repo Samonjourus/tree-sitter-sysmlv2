@@ -111,6 +111,77 @@ module.exports = {
 
   // section 8.2.2.6: Definition and usage textual notation
   // section 8.2.2.6.1: Definitions
+
+  basic_definition_prefix: ($) =>
+    choice(
+      field("isAbstract", $.abstract_keyword),
+      field("isVariation", $.variation_keyword),
+    ),
+
+  definition_extension_keyword: ($) =>
+    field("ownedRelationship", $.prefix_metadata_member),
+
+  definition_prefix: ($) =>
+    seq(
+      optional($.basic_definition_prefix),
+      repeat($.definition_extension_keyword),
+    ),
+
+  definition_body: ($) =>
+    choice(";", seq("{", repeat($.definition_body_item), "}")),
+
+  definition_declaration: ($) =>
+    choice($.identification, $.subclassification_part),
+
+  definition_body_item: ($) =>
+    choice(
+      field("ownedRelationship", $.definition_member),
+      field("ownedRelationship", $.variant_usage_member),
+      field("ownedRelationship", $.non_occurrence_usage_member),
+      seq(
+        optional(field("ownedRelationship", $.source_succession_member)),
+        field("ownedRelationship", $.occurrence_usage_member),
+      ),
+      field("ownedRelationship", $.alias_member),
+      field("ownedRelationship", $.import),
+    ),
+
+  definition_member: ($) =>
+    seq($.member_prefix, field("ownedRelatedElement", $.definition_element)),
+
+  variant_usage_member: ($) =>
+    seq(
+      $.member_prefix,
+      $.variant_keyword,
+      field("ownedVariantUsage", $.variant_usage_element),
+    ),
+
+  non_currence_usage_member: ($) =>
+    seq(
+      $.member_prefix,
+      field("ownedRelatedElement", $.non_occurrence_usage_element),
+    ),
+
+  occurrence_usage_member: ($) =>
+    seq(
+      $.member_prefix,
+      field("ownedRelatedElement", $.occurrence_usage_element),
+    ),
+
+  structure_usage_member: ($) =>
+    seq(
+      $.member_prefix,
+      field("ownedRelatedElement", $.structure_usage_element),
+    ),
+
+  behavior_usage_member: ($) =>
+    seq(
+      $.member_prefix,
+      field("ownedRelatedElement", $.behavior_usage_element),
+    ),
+
+  // section 8.2.2.6.2: Usages
+
   owned_feature_typing: ($) =>
     prec(1, choice($.qualified_name, $.owned_feature_chain)),
 
