@@ -213,12 +213,11 @@ module.exports = {
   usage_extension_keyword: ($) =>
     field("ownedRelationship", $.prefix_metadata_member),
 
-  unextended_usage_prefix: choice($.basic_usage_prefix, $.end_usage_prefix),
+  unextended_usage_prefix: ($) =>
+    choice($.basic_usage_prefix, $.end_usage_prefix),
 
-  usage_prefix: seq(
-    $.unextended_usage_prefix,
-    repeat($.usage_extension_keyword),
-  ),
+  usage_prefix: ($) =>
+    seq($.unextended_usage_prefix, repeat($.usage_extension_keyword)),
 
   usage: ($) => seq($.usage_declararion, $.usage_completion),
 
@@ -336,16 +335,24 @@ module.exports = {
       $.BehaviorUsageElement,
     ),
 
-  owned_feature_typing: ($) =>
-    prec(1, choice($.qualified_name, $.owned_feature_chain)),
+  // section 8.2.2.6.5: specialization
+  subclassification_part: ($) =>
+    seq(
+      $.specializes_keyword,
+      field("ownedRelationship", $.owned_subclassification),
+      repeat(
+        seq(token(","), field("ownedRelationship", $.owned_subclassification)),
+      ),
+    ),
 
-  owned_feature_chain: ($) => $.feature_chain,
+  owned_subclassification: ($) => field("superclassifier", $.qualified_name),
 
-  feature_chain: ($) =>
-    prec.left(
+  feature_specialization_part: ($) =>
+    choice(
       seq(
-        field("ownedRelationship", $.owned_feature_chaining),
-        repeat1(seq(".", field("ownedRelationship", $.owned_feature_chaining))),
+        repeat1($.feature_specialization),
+        optional($.multiplicity_part),
+        repeat($.feature_specialization),
       ),
       $.multiplicity_part,
       repeat($.feature_specialization),
@@ -432,25 +439,26 @@ module.exports = {
       repeat1(".", field("ownedRelationship", $.owned_feature_chaining)),
     ),
 
-  owned_feature_chaining: field("chainingFeature", $.qualified_name),
+  owned_feature_chaining: ($) => field("chainingFeature", $.qualified_name),
 
   // section 8.2.2.6.5: specialization
-  multiplicity_part: choice(
-    field("ownedRelationship", $.owned_multiplicity),
-    seq(
-      optional(field("ownedRelationship", $.owned_multiplicity)),
-      choice(
-        seq(
-          field("isOrdered", $.ordered_keyword),
-          optional($.nonunique_keyword),
-        ),
-        seq(
-          $.nonunique_keyword,
-          optional(field("isOrdered", $.ordered_keyword)),
+  multiplicity_part: ($) =>
+    choice(
+      field("ownedRelationship", $.owned_multiplicity),
+      seq(
+        optional(field("ownedRelationship", $.owned_multiplicity)),
+        choice(
+          seq(
+            field("isOrdered", $.ordered_keyword),
+            optional($.nonunique_keyword),
+          ),
+          seq(
+            $.nonunique_keyword,
+            optional(field("isOrdered", $.ordered_keyword)),
+          ),
         ),
       ),
     ),
-  ),
 
   owned_multiplicity: ($) => field("ownedRelatedElement", $.multiplicity_range),
 
