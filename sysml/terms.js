@@ -434,6 +434,42 @@ module.exports = {
 
   owned_feature_chaining: field("chainingFeature", $.qualified_name),
 
+  // section 8.2.2.6.5: specialization
+  multiplicity_part: choice(
+    field("ownedRelationship", $.owned_multiplicity),
+    seq(
+      optional(field("ownedRelationship", $.owned_multiplicity)),
+      choice(
+        seq(
+          field("isOrdered", $.ordered_keyword),
+          optional($.nonunique_keyword),
+        ),
+        seq(
+          $.nonunique_keyword,
+          optional(field("isOrdered", $.ordered_keyword)),
+        ),
+      ),
+    ),
+  ),
+
+  owned_multiplicity: ($) => field("ownedRelatedElement", $.multiplicity_range),
+
+  multiplicity_range: ($) =>
+    seq(
+      $.square_open,
+      optional(
+        seq(field("ownedRelationship", $.multiplicity_expression_member), ".."),
+      ),
+      field("ownedRelationship", $.multiplicity_expression_member),
+      $.square_close,
+    ),
+
+  multiplicity_expression_member: ($) =>
+    field(
+      "ownedRelatedElement",
+      choice($.literal_expression, $.feature_reference_expression),
+    ),
+
   // section 8.2.2.7: Attributes textual notation
   // section 8.2.2.8: Enumerations textual notation
   // section 8.2.2.9: Occurrences textual notation
