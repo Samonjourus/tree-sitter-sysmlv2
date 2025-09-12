@@ -479,6 +479,10 @@ module.exports = {
     ),
 
   // section 8.2.2.7: Attributes textual notation
+  attribute_definition: ($) =>
+    seq($.definition_prefix, $.attribute_keyword, $.def_keyword, $.definition),
+
+  attribute_usage: ($) => seq($.usage_prefix, $.attribute_keyword, $.usage),
   // section 8.2.2.8: Enumerations textual notation
   // section 8.2.2.9: Occurrences textual notation
   // section 8.2.2.10: Items textual notation
