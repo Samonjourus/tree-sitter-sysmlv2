@@ -1,11 +1,11 @@
-const statements = require("./statements");
 const keywords = require("./keywords");
-const terms = require("./terms");
+const symbols = require("./symbols");
+const rules = require("./sections/rules");
 
 let core = {
   keywords: keywords,
-  statements: statements,
-  terms: terms,
+  symbols: symbols,
+  rules: rules,
 };
 
 module.exports = core;

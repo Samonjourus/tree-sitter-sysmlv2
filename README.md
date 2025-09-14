@@ -10,24 +10,24 @@ According to the [SysMLv2 specification](https://www.omg.org/spec/SysML/2.0/Beta
 - [x] Annotations
 - [x] Namespaces and Packages
 - [ ] Definitions and Usage
-- [ ] Attributes
-- [ ] Enumerations
-- [ ] Occurences
-- [ ] Items
-- [ ] Parts
+- [x] Attributes
+- [x] Enumerations
+- [x] Occurences
+- [x] Items
+- [x] Parts
 - [ ] Ports
-- [ ] Connections
-- [ ] Interfaces
-- [ ] Allocations
-- [ ] Flows and Messages
-- [ ] Actions
-- [ ] States
-- [ ] Calculations
-- [ ] Constraints
-- [ ] Requirements
-- [ ] Cases
-- [ ] Analysis Cases
-- [ ] Verification Cases
-- [ ] Use Cases
-- [ ] Views and Viewpoints
-- [ ] Metadata
+- [x] Connections
+- [x] Interfaces
+- [x] Allocations
+- [x] Flows and Messages
+- [x] Actions
+- [x] States
+- [x] Calculations
+- [x] Constraints
+- [x] Requirements
+- [x] Cases
+- [x] Analysis Cases
+- [x] Verification Cases
+- [x] Use Cases
+- [x] Views and Viewpoints
+- [x] Metadata

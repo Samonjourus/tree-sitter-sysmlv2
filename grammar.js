@@ -14,13 +14,13 @@ let merged = {
   root_namespace: ($) => repeat($.package_body_element),
 
   ...kerml["terms"],
-  ...sysml["terms"],
+  ...sysml["symbols"],
 
   ...kerml["keywords"],
   ...sysml["keywords"],
 
   ...kerml["statements"],
-  ...sysml["statements"],
+  ...sysml["rules"],
 };
 
 module.exports = grammar({
